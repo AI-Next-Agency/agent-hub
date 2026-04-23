@@ -10,3 +10,9 @@ This repo is the working space for a new AI education/consultancy venture (owner
 
 - Partners meet twice weekly: **Monday & Thursday, 22:00–23:00 Europe/Berlin**.
 - The team take meeting notes as `meetings/YYYYMMDD.md` (8-digit date, no separators) in free format. Notes are written in Turkish or English.
+
+## Curriculum materials
+
+- All curriculum materials under `curriculum/` must be bilingual: English and Turkish.
+- Author the English version first as `<name>.en.md`, then translate it to Turkish as `<name>.tr.md`.
+- Keep the two versions in sync — when the English file changes, update the Turkish file in the same change.
