@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(ln -s AGENTS.md /Users/giray/projects/custom/ai-next/CLAUDE.md)"
-    ]
-  }
-}
