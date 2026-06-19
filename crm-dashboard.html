@@ -102,6 +102,8 @@
     border-color: var(--border);
   }
   .btn-ghost:hover { background: var(--surface-2); color: var(--ink); border-color: var(--border-hover); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinning { animation: spin 0.7s linear infinite; }
 
   /* ─── Toolbar ─────────────────────────────────────────────── */
   .toolbar {
@@ -392,6 +394,11 @@
     <div class="topbar-spacer"></div>
     <div class="topbar-stats" id="topStats"></div>
     <span id="syncIndicator" style="font-size:11px;color:var(--ink-3);transition:color 0.3s"></span>
+    <button class="btn btn-ghost" id="refreshBtn" onclick="refreshData()" title="Verileri güncelle" style="padding:6px 10px">
+      <svg id="refreshIcon" width="13" height="13" viewBox="0 0 16 16" fill="none" style="display:block">
+        <path d="M2.5 8a5.5 5.5 0 0 1 9.37-3.89L14 2v4h-4l1.62-1.62A3.5 3.5 0 1 0 11.5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
     <button class="btn btn-primary" onclick="openAddModal()">
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       Yeni Kayıt
@@ -979,17 +986,18 @@ function getNextAction(p) {
 }
 
 // ─── Init ──────────────────────────────────────────────────────────
-async function loadData() {
+async function loadData(silent = false) {
   if (!WEBAPI_URL) {
-    // No API configured — use hardcoded PROSPECTS as fallback
     renderStats();
     filterData();
     setView('table');
     return;
   }
-  // Show loading placeholder while fetching live data from Google Sheets
-  document.getElementById('tableBody').innerHTML =
-    '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--ink-3)">Veriler yükleniyor…</td></tr>';
+  if (!silent) {
+    // First load: show placeholder
+    document.getElementById('tableBody').innerHTML =
+      '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--ink-3)">Veriler yükleniyor…</td></tr>';
+  }
   setSyncIndicator('syncing');
   try {
     const res = await fetch(WEBAPI_URL);
@@ -998,18 +1006,29 @@ async function loadData() {
       data = json.data;
       filtered = [...data];
       setSyncIndicator('synced');
-      showToast(`${data.length} kayıt Google Sheet'ten yüklendi`);
+      showToast(silent ? `${data.length} kayıt güncellendi` : `${data.length} kayıt yüklendi`);
     } else {
       setSyncIndicator('error');
-      showToast('API yanıtı boş — lokal veri kullanılıyor');
+      showToast('API yanıtı boş — lokal veri gösteriliyor');
     }
   } catch (err) {
     setSyncIndicator('error');
-    showToast('Bağlantı hatası — lokal veri kullanılıyor');
+    showToast('Bağlantı hatası — lokal veri gösteriliyor');
   }
   renderStats();
   filterData();
-  setView('table');
+  if (!silent) setView('table');
+}
+
+async function refreshData() {
+  if (!WEBAPI_URL) { showToast('API URL tanımlı değil'); return; }
+  const icon = document.getElementById('refreshIcon');
+  const btn = document.getElementById('refreshBtn');
+  icon.classList.add('spinning');
+  btn.disabled = true;
+  await loadData(true);
+  icon.classList.remove('spinning');
+  btn.disabled = false;
 }
 
 loadData();
