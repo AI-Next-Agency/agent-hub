@@ -1,0 +1,19 @@
+<svg width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="800" rx="40" fill="#080808"/>
+  <rect x="36" y="36" width="728" height="728" rx="32" fill="url(#paint0_linear)"/>
+  <rect x="90" y="122" width="620" height="540" rx="28" fill="#101010" stroke="#6D181B"/>
+  <rect x="142" y="188" width="204" height="220" rx="22" fill="#B52429" fill-opacity="0.24"/>
+  <rect x="374" y="188" width="196" height="70" rx="18" fill="#F4F4F5" fill-opacity="0.18"/>
+  <rect x="374" y="282" width="286" height="48" rx="14" fill="#F4F4F5" fill-opacity="0.12"/>
+  <rect x="374" y="354" width="232" height="48" rx="14" fill="#F4F4F5" fill-opacity="0.12"/>
+  <rect x="142" y="448" width="518" height="52" rx="18" fill="#F4F4F5" fill-opacity="0.12"/>
+  <rect x="142" y="524" width="438" height="52" rx="18" fill="#F4F4F5" fill-opacity="0.12"/>
+  <text x="108" y="624" fill="#F5F5F5" font-family="Arial, sans-serif" font-size="64" font-weight="700">Marketing</text>
+  <text x="110" y="686" fill="#BEBEBE" font-family="Arial, sans-serif" font-size="28">AI education for content, research, and campaigns</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="36" y1="36" x2="764" y2="764" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#300B0D"/>
+      <stop offset="1" stop-color="#171717"/>
+    </linearGradient>
+  </defs>
+</svg>

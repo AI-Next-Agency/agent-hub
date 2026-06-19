@@ -1,0 +1,21 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#080808"/>
+  <rect x="64" y="64" width="1072" height="1072" rx="48" fill="url(#paint0_linear)"/>
+  <rect x="118" y="136" width="964" height="928" rx="36" fill="#101010" stroke="#6D181B"/>
+  <rect x="190" y="228" width="356" height="250" rx="30" fill="#B52429" fill-opacity="0.22"/>
+  <rect x="582" y="228" width="430" height="62" rx="18" fill="#F4F4F5" fill-opacity="0.16"/>
+  <rect x="582" y="320" width="356" height="48" rx="16" fill="#F4F4F5" fill-opacity="0.12"/>
+  <rect x="582" y="394" width="292" height="48" rx="16" fill="#F4F4F5" fill-opacity="0.12"/>
+  <path d="M208 598H992" stroke="#F4F4F5" stroke-opacity="0.12" stroke-width="2"/>
+  <rect x="208" y="646" width="784" height="52" rx="18" fill="#F4F4F5" fill-opacity="0.1"/>
+  <rect x="208" y="728" width="722" height="52" rx="18" fill="#F4F4F5" fill-opacity="0.1"/>
+  <rect x="208" y="810" width="760" height="52" rx="18" fill="#F4F4F5" fill-opacity="0.1"/>
+  <text x="190" y="960" fill="#F5F5F5" font-family="Arial, sans-serif" font-size="76" font-weight="700">Build AI Capability</text>
+  <text x="190" y="1038" fill="#BEBEBE" font-family="Arial, sans-serif" font-size="34">Education that helps teams use AI without hype.</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="64" y1="64" x2="1136" y2="1136" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#300B0D"/>
+      <stop offset="1" stop-color="#171717"/>
+    </linearGradient>
+  </defs>
+</svg>

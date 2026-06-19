@@ -1,0 +1,18 @@
+<svg width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="800" rx="40" fill="#080808"/>
+  <rect x="36" y="36" width="728" height="728" rx="32" fill="url(#paint0_linear)"/>
+  <rect x="96" y="118" width="608" height="544" rx="28" fill="#101010" stroke="#6D181B"/>
+  <path d="M168 490C236 386 294 336 374 314C448 294 524 306 634 240" stroke="#F4F4F5" stroke-width="20" stroke-linecap="round"/>
+  <path d="M592 244L638 238L616 278" stroke="#F4F4F5" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="246" cy="416" r="22" fill="#B52429" fill-opacity="0.9"/>
+  <circle cx="388" cy="312" r="22" fill="#B52429" fill-opacity="0.9"/>
+  <circle cx="530" cy="294" r="22" fill="#B52429" fill-opacity="0.9"/>
+  <text x="112" y="624" fill="#F5F5F5" font-family="Arial, sans-serif" font-size="64" font-weight="700">Sales</text>
+  <text x="114" y="686" fill="#BEBEBE" font-family="Arial, sans-serif" font-size="28">AI education for research, prep, and follow-up</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="36" y1="36" x2="764" y2="764" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#300B0D"/>
+      <stop offset="1" stop-color="#171717"/>
+    </linearGradient>
+  </defs>
+</svg>

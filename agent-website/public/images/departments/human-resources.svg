@@ -1,0 +1,18 @@
+<svg width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="800" rx="40" fill="#080808"/>
+  <rect x="36" y="36" width="728" height="728" rx="32" fill="url(#paint0_linear)"/>
+  <rect x="96" y="120" width="608" height="540" rx="28" fill="#101010" stroke="#6D181B"/>
+  <circle cx="278" cy="288" r="56" fill="#F4F4F5" fill-opacity="0.16"/>
+  <circle cx="522" cy="288" r="56" fill="#F4F4F5" fill-opacity="0.16"/>
+  <circle cx="400" cy="372" r="66" fill="#B52429" fill-opacity="0.32"/>
+  <path d="M220 470C220 415 266 370 322 370H334C390 370 436 415 436 470V500H220V470Z" fill="#F4F4F5" fill-opacity="0.12"/>
+  <path d="M364 506C364 442 416 390 480 390H500C564 390 616 442 616 506V534H364V506Z" fill="#F4F4F5" fill-opacity="0.12"/>
+  <text x="112" y="618" fill="#F5F5F5" font-family="Arial, sans-serif" font-size="58" font-weight="700">Human Resources</text>
+  <text x="114" y="680" fill="#BEBEBE" font-family="Arial, sans-serif" font-size="28">AI education for communication and enablement</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="36" y1="36" x2="764" y2="764" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#300B0D"/>
+      <stop offset="1" stop-color="#171717"/>
+    </linearGradient>
+  </defs>
+</svg>
