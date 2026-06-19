@@ -1,0 +1,32 @@
+{
+  "date": "2026-06-19",
+  "emails": [
+    {
+      "slug": "nurol-insaat",
+      "company_name": "Nurol İnşaat",
+      "contact_name": "Nurettin Akdeniz",
+      "contact_email": "info@nurolinsaat.com.tr",
+      "email_type": "D1",
+      "prospect_id": 5,
+      "status": "sent"
+    },
+    {
+      "slug": "guven-hastanesi",
+      "company_name": "Güven Hastanesi",
+      "contact_name": "Banu Küçükel",
+      "contact_email": "guven@guven.com.tr",
+      "email_type": "D1",
+      "prospect_id": 3,
+      "status": "sent"
+    },
+    {
+      "slug": "limak-holding",
+      "company_name": "Limak Holding",
+      "contact_name": "Nihat Çukurkaya",
+      "contact_email": "limak@limak.com.tr",
+      "email_type": "D1",
+      "prospect_id": 4,
+      "status": "sent"
+    }
+  ]
+}
