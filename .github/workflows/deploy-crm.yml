@@ -30,11 +30,6 @@ jobs:
       - name: Build Next.js site
         run: bun run build
 
-      - name: Copy standalone CRM into out/crm/
-        run: |
-          mkdir -p out/crm
-          cp public/crm/index.html out/crm/index.html
-
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
