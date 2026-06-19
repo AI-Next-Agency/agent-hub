@@ -552,7 +552,7 @@ const SECTOR_COLORS = {
 // ─── Web App URL ─────────────────────────────────────────────────
 // Apps Script'i deploy ettikten sonra URL'yi buraya yapıştır:
 // Deploy → New deployment → Web app → Execute as: Me → Who: Anyone → Deploy
-const WEBAPI_URL = ""; // örn: "https://script.google.com/macros/s/XXXX/exec"
+const WEBAPI_URL = "https://script.google.com/macros/s/AKfycbxVSyEB63hVPDxZzebsS_rshZYQeBNxl1F16PRCUJYVmCqrcfUXz7nZGLvUSafwFoj4UA/exec"; // örn: "https://script.google.com/macros/s/XXXX/exec"
 
 // ─── State ────────────────────────────────────────────────────────
 let data = JSON.parse(JSON.stringify(PROSPECTS));
@@ -981,11 +981,41 @@ function getNextAction(p) {
 }
 
 // ─── Init ──────────────────────────────────────────────────────────
-renderStats();
-filterData();
-setView('table');
+async function loadData() {
+  if (!WEBAPI_URL) {
+    // No API configured — use hardcoded PROSPECTS as fallback
+    renderStats();
+    filterData();
+    setView('table');
+    return;
+  }
+  // Show loading placeholder while fetching live data from Google Sheets
+  document.getElementById('tableBody').innerHTML =
+    '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--ink-3)">Veriler yükleniyor…</td></tr>';
+  setSyncIndicator('syncing');
+  try {
+    const res = await fetch(WEBAPI_URL);
+    const json = await res.json();
+    if (json.ok && Array.isArray(json.data) && json.data.length) {
+      data = json.data;
+      filtered = [...data];
+      setSyncIndicator('synced');
+      showToast(`${data.length} kayıt Google Sheet'ten yüklendi`);
+    } else {
+      setSyncIndicator('error');
+      showToast('API yanıtı boş — lokal veri kullanılıyor');
+    }
+  } catch (err) {
+    setSyncIndicator('error');
+    showToast('Bağlantı hatası — lokal veri kullanılıyor');
+  }
+  renderStats();
+  filterData();
+  setView('table');
+}
 
-// Keyboard shortcut: Escape to close panel
+loadData();
+
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeDetailPanel();
 });

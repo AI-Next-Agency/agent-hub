@@ -1,0 +1,41 @@
+name: Deploy CRM Dashboard
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'crm-dashboard.html'
+      - '.github/workflows/deploy-crm.yml'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare CRM page
+        run: |
+          mkdir -p _site
+          cp crm-dashboard.html _site/index.html
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
