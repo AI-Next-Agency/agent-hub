@@ -10,17 +10,17 @@
 <style>
   /* ─── Tokens ─────────────────────────────────────────────── */
   :root {
-    --bg:          oklch(0.14 0.015 255);
-    --surface:     oklch(0.18 0.015 255);
-    --surface-2:   oklch(0.22 0.015 255);
-    --border:      oklch(0.28 0.012 255);
-    --border-hover:oklch(0.38 0.012 255);
-    --ink:         oklch(0.96 0.005 255);
-    --ink-2:       oklch(0.72 0.010 255);
-    --ink-3:       oklch(0.52 0.010 255);
-    --accent:      oklch(0.72 0.18 200);
-    --accent-dim:  oklch(0.72 0.18 200 / 0.15);
-    --accent-hover:oklch(0.78 0.18 200);
+    --bg:          #F5F7FA;
+    --surface:     #FFFFFF;
+    --surface-2:   #EEF1F6;
+    --border:      #DDE2EA;
+    --border-hover:#B8C2CF;
+    --ink:         #111827;
+    --ink-2:       #374151;
+    --ink-3:       #9CA3AF;
+    --accent:      #2563EB;
+    --accent-dim:  rgba(37,99,235,0.08);
+    --accent-hover:#1D4ED8;
 
     /* Stage colors */
     --stage-research:  oklch(0.60 0.010 255);
@@ -39,7 +39,7 @@
     --radius:      8px;
     --radius-lg:   12px;
     --font: 'Inter', system-ui, sans-serif;
-    --shadow: 0 1px 3px oklch(0 0 0 / 0.4), 0 4px 12px oklch(0 0 0 / 0.25);
+    --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 12px rgba(0,0,0,0.06);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -93,7 +93,7 @@
     border: 1px solid transparent; transition: all 0.15s ease;
   }
   .btn-primary {
-    background: var(--accent); color: oklch(0.14 0.015 255);
+    background: var(--accent); color: #FFFFFF;
     border-color: var(--accent);
   }
   .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
@@ -551,10 +551,10 @@ const STAGE_COLORS = {
 };
 
 const SECTOR_COLORS = {
-  "Sağlık Zinciri":            ["oklch(0.30 0.08 160)", "oklch(0.65 0.16 160)"],
-  "Mühendislik / Müşavirlik":  ["oklch(0.28 0.08 240)", "oklch(0.68 0.16 240)"],
-  "Sigorta Brokerlik":         ["oklch(0.30 0.08 290)", "oklch(0.70 0.14 290)"],
-  "Sigorta":                   ["oklch(0.28 0.08 55)",  "oklch(0.72 0.16 55)"],
+  "Sağlık Zinciri":            ["#DCFCE7", "#15803D"],
+  "Mühendislik / Müşavirlik":  ["#DBEAFE", "#1D4ED8"],
+  "Sigorta Brokerlik":         ["#F3E8FF", "#7C3AED"],
+  "Sigorta":                   ["#FEF9C3", "#A16207"],
 };
 
 // ─── Web App URL ─────────────────────────────────────────────────
@@ -574,7 +574,7 @@ function initials(name) {
   return name.split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
 }
 function avatarColors(sektor) {
-  return SECTOR_COLORS[sektor] || ["oklch(0.25 0.05 255)", "oklch(0.60 0.10 255)"];
+  return SECTOR_COLORS[sektor] || ["#F3F4F6", "#374151"];
 }
 function stageCls(asama) {
   const map = {
