@@ -10,43 +10,47 @@
 <style>
   /* ─── Tokens ─────────────────────────────────────────────── */
   :root {
-    --bg:          oklch(0.14 0.015 255);
-    --surface:     oklch(0.18 0.015 255);
-    --surface-2:   oklch(0.22 0.015 255);
-    --border:      oklch(0.28 0.012 255);
-    --border-hover:oklch(0.38 0.012 255);
-    --ink:         oklch(0.96 0.005 255);
-    --ink-2:       oklch(0.72 0.010 255);
-    --ink-3:       oklch(0.52 0.010 255);
-    --accent:      oklch(0.72 0.18 200);
-    --accent-dim:  oklch(0.72 0.18 200 / 0.15);
-    --accent-hover:oklch(0.78 0.18 200);
+    --bg:          #FAFAFA;
+    --surface:     #FFFFFF;
+    --surface-2:   #F3F4F6;
+    --border:      #E5E7EB;
+    --border-hover:#9CA3AF;
+    --ink:         #111827;
+    --ink-2:       #374151;
+    --ink-3:       #9CA3AF;
+    --accent:      #C22C2F;
+    --accent-dim:  rgba(194,44,47,0.07);
+    --accent-hover:#A82225;
 
     /* Stage colors */
-    --stage-research:  oklch(0.60 0.010 255);
-    --stage-email1:    oklch(0.68 0.16 240);
-    --stage-fu1:       oklch(0.72 0.14 290);
-    --stage-fu2:       oklch(0.75 0.17 55);
-    --stage-positive:  oklch(0.72 0.16 145);
-    --stage-archive:   oklch(0.50 0.008 255);
+    --stage-research:  #6B7280;
+    --stage-email1:    #2563EB;
+    --stage-fu1:       #7C3AED;
+    --stage-fu2:       #D97706;
+    --stage-positive:  #16A34A;
+    --stage-archive:   #9CA3AF;
 
     /* Priority */
-    --prio-high:   oklch(0.72 0.18 25);
-    --prio-mid:    oklch(0.78 0.16 85);
-    --prio-low:    oklch(0.60 0.010 255);
+    --prio-high:   #DC2626;
+    --prio-mid:    #D97706;
+    --prio-low:    #6B7280;
 
-    --radius-sm:   4px;
-    --radius:      8px;
-    --radius-lg:   12px;
+    --radius-sm:   0px;
+    --radius:      0px;
+    --radius-lg:   0px;
     --font: 'Inter', system-ui, sans-serif;
-    --shadow: 0 1px 3px oklch(0 0 0 / 0.4), 0 4px 12px oklch(0 0 0 / 0.25);
+    --shadow: none;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     font-family: var(--font);
-    background: var(--bg);
+    background-color: #FAFAFA;
+    background-image:
+      linear-gradient(#F0F0F1 1px, transparent 1px),
+      linear-gradient(90deg, #F0F0F1 1px, transparent 1px);
+    background-size: 20px 20px;
     color: var(--ink);
     font-size: 14px;
     line-height: 1.5;
@@ -73,9 +77,8 @@
     color: var(--ink); user-select: none;
   }
   .topbar-logo-dot {
-    width: 8px; height: 8px; border-radius: 50%;
+    width: 7px; height: 7px;
     background: var(--accent);
-    box-shadow: 0 0 8px var(--accent);
   }
   .topbar-divider { width: 1px; height: 20px; background: var(--border); }
   .topbar-title { color: var(--ink-2); font-size: 13px; }
@@ -93,7 +96,7 @@
     border: 1px solid transparent; transition: all 0.15s ease;
   }
   .btn-primary {
-    background: var(--accent); color: oklch(0.14 0.015 255);
+    background: var(--accent); color: #FFFFFF;
     border-color: var(--accent);
   }
   .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
@@ -102,6 +105,8 @@
     border-color: var(--border);
   }
   .btn-ghost:hover { background: var(--surface-2); color: var(--ink); border-color: var(--border-hover); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinning { animation: spin 0.7s linear infinite; }
 
   /* ─── Toolbar ─────────────────────────────────────────────── */
   .toolbar {
@@ -149,7 +154,7 @@
   .view-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
   .view-btn:hover:not(.active) { background: var(--surface-2); color: var(--ink-2); }
   .count-badge {
-    padding: 2px 7px; border-radius: 20px;
+    padding: 2px 7px;
     background: var(--surface-2); border: 1px solid var(--border);
     font-size: 12px; color: var(--ink-3);
   }
@@ -205,29 +210,28 @@
   /* Stage badge */
   .stage-badge {
     display: inline-flex; align-items: center; gap: 5px;
-    padding: 3px 9px; border-radius: 20px;
+    padding: 3px 9px;
     font-size: 11px; font-weight: 500; white-space: nowrap;
   }
   .stage-badge::before {
     content: ''; width: 5px; height: 5px; border-radius: 50%;
     background: currentColor; flex-shrink: 0;
   }
-  .stage-Araştırılıyor   { color: var(--stage-research); background: oklch(0.60 0.010 255 / 0.12); }
-  .stage-Email1          { color: var(--stage-email1);   background: oklch(0.68 0.16 240 / 0.12); }
-  .stage-Followup1       { color: var(--stage-fu1);      background: oklch(0.72 0.14 290 / 0.12); }
-  .stage-Followup2       { color: var(--stage-fu2);      background: oklch(0.75 0.17 55 / 0.12); }
-  .stage-Pozitif         { color: var(--stage-positive); background: oklch(0.72 0.16 145 / 0.12); }
-  .stage-Arşiv           { color: var(--stage-archive);  background: oklch(0.50 0.008 255 / 0.12); }
+  .stage-Araştırılıyor   { color: var(--stage-research); background: rgba(107,114,128,0.10); }
+  .stage-Email1          { color: var(--stage-email1);   background: rgba(37,99,235,0.10); }
+  .stage-Followup1       { color: var(--stage-fu1);      background: rgba(124,58,237,0.10); }
+  .stage-Followup2       { color: var(--stage-fu2);      background: rgba(217,119,6,0.10); }
+  .stage-Pozitif         { color: var(--stage-positive); background: rgba(22,163,74,0.10); }
+  .stage-Arşiv           { color: var(--stage-archive);  background: rgba(156,163,175,0.10); }
 
   /* Priority */
   .prio-badge {
     display: inline-flex; align-items: center; gap: 4px;
     font-size: 11px; font-weight: 500; padding: 2px 7px;
-    border-radius: 3px;
   }
-  .prio-Yüksek { color: var(--prio-high); background: oklch(0.72 0.18 25 / 0.12); }
-  .prio-Orta   { color: var(--prio-mid);  background: oklch(0.78 0.16 85 / 0.12); }
-  .prio-Düşük  { color: var(--prio-low);  background: oklch(0.60 0.010 255 / 0.12); }
+  .prio-Yüksek { color: var(--prio-high); background: rgba(220,38,38,0.08); }
+  .prio-Orta   { color: var(--prio-mid);  background: rgba(217,119,6,0.08); }
+  .prio-Düşük  { color: var(--prio-low);  background: rgba(107,114,128,0.08); }
 
   .date-cell { font-size: 12px; color: var(--ink-2); white-space: nowrap; }
   .date-cell.overdue { color: var(--prio-high); font-weight: 500; }
@@ -266,7 +270,7 @@
   .kanban-count {
     font-size: 11px; color: var(--ink-3);
     background: var(--surface-2); border: 1px solid var(--border);
-    padding: 1px 6px; border-radius: 20px;
+    padding: 1px 6px;
   }
   .kanban-cards { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
   .kanban-card {
@@ -274,7 +278,7 @@
     border-radius: var(--radius); padding: 12px;
     cursor: pointer; transition: all 0.15s;
   }
-  .kanban-card:hover { border-color: var(--border-hover); transform: translateY(-1px); box-shadow: var(--shadow); }
+  .kanban-card:hover { border-color: var(--border-hover); }
   .kanban-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
   .kanban-card-name { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.3; }
   .kanban-card-meta { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
@@ -345,7 +349,7 @@
   /* ─── Toast ───────────────────────────────────────────────── */
   .toast {
     position: fixed; bottom: 24px; right: 24px;
-    padding: 10px 16px; border-radius: var(--radius);
+    padding: 10px 16px;
     background: var(--ink); color: var(--bg);
     font-size: 13px; font-weight: 500;
     transform: translateY(12px); opacity: 0;
@@ -392,6 +396,12 @@
     <div class="topbar-spacer"></div>
     <div class="topbar-stats" id="topStats"></div>
     <span id="syncIndicator" style="font-size:11px;color:var(--ink-3);transition:color 0.3s"></span>
+    <button class="btn btn-ghost" id="refreshBtn" onclick="refreshData()" title="Verileri güncelle" style="padding:6px 10px">
+      <svg id="refreshIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:block">
+        <path d="M1 4v6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3.51 15a9 9 0 1 0 .49-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
     <button class="btn btn-primary" onclick="openAddModal()">
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       Yeni Kayıt
@@ -507,12 +517,12 @@
 <script>
 // ─── Data ──────────────────────────────────────────────────────────
 const PROSPECTS = [
-  { id:1,  sirket:"GAMA Holding",          sektor:"Mühendislik / Müşavirlik", karar_verici:"Ebru Ural Ozkan",    rol:"İK ve Kurumsal Gelişim Grup Müdürü", eposta:"holding@gama.com.tr",           calisanlar:1500, oncelik:"Yüksek", asama:"Email 1 Gönderildi",    son_temas:"2026-06-18", fu1:"", fu2:"", yanit:false, otomasyon:"EPC teklif hazırlama otomasyonu + saha mühendisi günlük raporlarını yönetim özetine dönüştürme", gozlem:"GOP Ankara HQ; inşaat + enerji + turizm + çimento + teknoloji çok-divisyonlu", not_:"Verified kurumsal email; Ebru Ural Ozkan basın bültenlerinde adlandırılmış" },
-  { id:2,  sirket:"Memorial Sağlık Grubu", sektor:"Sağlık Zinciri",            karar_verici:"Özlem Çakar",        rol:"İK Direktörü (Kurumsal)",            eposta:"kariyer@memorial.com.tr",        calisanlar:2000, oncelik:"Yüksek", asama:"Email 1 Gönderildi",    son_temas:"2026-06-18", fu1:"", fu2:"", yanit:false, otomasyon:"Hekim klinik notlarını ICD-10 kodlamasına AI ile çevirme + hasta deneyim anketlerini canlı bültene dönüştürme", gozlem:"JCI akrediteli Türkiye'nin en büyük özel sağlık gruplarından; Memorial Ankara şubesi Çankaya'da", not_:"Generic kariyer kanalı; Özlem Çakar İK Direktörü Memorial Healthcare LinkedIn" },
+  { id:1,  sirket:"GAMA Holding",          sektor:"Mühendislik / Müşavirlik", karar_verici:"Ebru Ural Ozkan",    rol:"İK ve Kurumsal Gelişim Grup Müdürü", eposta:"holding@gama.com.tr",           calisanlar:1500, oncelik:"Yüksek", asama:"Follow-up 1 Gönderildi",    son_temas:"2026-06-22", fu1:"2026-06-22", fu2:"", yanit:false, otomasyon:"EPC teklif hazırlama otomasyonu + saha mühendisi günlük raporlarını yönetim özetine dönüştürme", gozlem:"GOP Ankara HQ; inşaat + enerji + turizm + çimento + teknoloji çok-divisyonlu", not_:"Verified kurumsal email; Ebru Ural Ozkan basın bültenlerinde adlandırılmış" },
+  { id:2,  sirket:"Memorial Sağlık Grubu", sektor:"Sağlık Zinciri",            karar_verici:"Özlem Çakar",        rol:"İK Direktörü (Kurumsal)",            eposta:"kariyer@memorial.com.tr",        calisanlar:2000, oncelik:"Yüksek", asama:"Follow-up 1 Gönderildi",    son_temas:"2026-06-22", fu1:"2026-06-22", fu2:"", yanit:false, otomasyon:"Hekim klinik notlarını ICD-10 kodlamasına AI ile çevirme + hasta deneyim anketlerini canlı bültene dönüştürme", gozlem:"JCI akrediteli Türkiye'nin en büyük özel sağlık gruplarından; Memorial Ankara şubesi Çankaya'da", not_:"Generic kariyer kanalı; Özlem Çakar İK Direktörü Memorial Healthcare LinkedIn" },
   { id:3,  sirket:"Güven Hastanesi",       sektor:"Sağlık Zinciri",            karar_verici:"Banu Küçükel",       rol:"YK Başkanı",                         eposta:"guven@guven.com.tr",             calisanlar:600,  oncelik:"Yüksek", asama:"Email 1 Gönderildi",    son_temas:"2026-06-19", fu1:"", fu2:"", yanit:false, otomasyon:"Çağrı merkezi ses analizinden hasta deneyim raporu + radyoloji ön-rapor AI yardımcısı", gozlem:"Kavaklıdere ve Çayyolu kampüsleri; 1976'dan beri Ankara", not_:"Verified kurumsal email; Banu Küçükel Facebook duyurularında" },
   { id:4,  sirket:"Limak Holding",         sektor:"Mühendislik / Müşavirlik", karar_verici:"Nihat Çukurkaya",    rol:"İK Direktörü (Limak İnşaat)",        eposta:"limak@limak.com.tr",             calisanlar:3000, oncelik:"Yüksek", asama:"Email 1 Gönderildi",    son_temas:"2026-06-19", fu1:"", fu2:"", yanit:false, otomasyon:"Çok-divisyon yetenek havuzu yönetimi için AI eşleştirme + saha güvenlik raporu görsel analiz", gozlem:"GOP Ankara HQ; inşaat + enerji + turizm + çimento + teknoloji çok-divisyonlu", not_:"Verified kurumsal email; Nihat Çukurkaya Hürriyet röportajında İK Direktörü 2024" },
   { id:5,  sirket:"Nurol İnşaat",          sektor:"Mühendislik / Müşavirlik", karar_verici:"Nurettin Akdeniz",   rol:"CEO",                                eposta:"info@nurolinsaat.com.tr",        calisanlar:1000, oncelik:"Yüksek", asama:"Email 1 Gönderildi",    son_temas:"2026-06-19", fu1:"", fu2:"", yanit:false, otomasyon:"Çok-disiplinli proje belgelerini RAG tabanlı iç kütüphane + savunma teklif hazırlama AI iş akışları", gozlem:"Ankara HQ; inşaat + savunma (FNSS) + madencilik + bankacılık çok-segmentli", not_:"Verified kurumsal email; Nurettin Akdeniz CEO Nurol İnşaat" },
-  { id:6,  sirket:"Lokman Hekim",          sektor:"Sağlık Zinciri",            karar_verici:"Büşra Bataklar",     rol:"İK Müdürü (Hastaneler)",             eposta:"yatirimdanisma@lokmanhekim.com.tr", calisanlar:800, oncelik:"Yüksek", asama:"Araştırılıyor",      son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Hekim diktasyon transkripsiyonu + üniversite hastanesinde klinik vaka simülasyon AI", gozlem:"6 Türkiye hastanesi (Etlik, Akay, Sincan, Demet) + üniversite hastanesi; halka açık şirket", not_:"Yatırımcı iletişim kanalı; Büşra Bataklar İK Müdürü" },
+  { id:6,  sirket:"Lokman Hekim",          sektor:"Sağlık Zinciri",            karar_verici:"Büşra Bataklar",     rol:"İK Müdürü (Hastaneler)",             eposta:"yatirimdanisma@lokmanhekim.com.tr", calisanlar:800, oncelik:"Yüksek", asama:"Email 1 Gönderildi",      son_temas:"2026-06-22", fu1:"", fu2:"", yanit:false, otomasyon:"Hekim diktasyon transkripsiyonu + üniversite hastanesinde klinik vaka simülasyon AI", gozlem:"6 Türkiye hastanesi (Etlik, Akay, Sincan, Demet) + üniversite hastanesi; halka açık şirket", not_:"Yatırımcı iletişim kanalı; Büşra Bataklar İK Müdürü" },
   { id:7,  sirket:"Yüksel İnşaat",         sektor:"Mühendislik / Müşavirlik", karar_verici:"Tayfun Sezgin Kayaş",rol:"YK Başkanı",                         eposta:"info@yuksel.net",                calisanlar:800,  oncelik:"Orta",   asama:"Araştırılıyor",         son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Mühendis ekibine ihale dosyası analizi için AI; çevre/iş güvenliği denetim raporu otomatik üretimi", gozlem:"1963 Ankara kurulu; otoyol + tünel + baraj + havalimanı uluslararası ölçek", not_:"Verified kurumsal email; Emin Sazak founder (eski TMB Başkanı)" },
   { id:8,  sirket:"Nurol Sigorta",         sektor:"Sigorta",                   karar_verici:"",                   rol:"Kurumsal İletişim",                  eposta:"info@nurolsigorta.com.tr",       calisanlar:80,   oncelik:"Orta",   asama:"Araştırılıyor",         son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"FNSS savunma sektörü gibi kompleks projeler için sigorta risk modelleme + müşteri segmentasyon AI", gozlem:"Nurol Holding bünyesi; Ankara; grup içi + kurumsal sigorta brokerliği + danışmanlık", not_:"Verified kurumsal email; Nurol Holding iletişim sayfasında listelenmiş" },
   { id:9,  sirket:"Tepe İnşaat",           sektor:"Mühendislik / Müşavirlik", karar_verici:"Şafak Kolay",        rol:"CEO",                                eposta:"info@tepe.com.tr",               calisanlar:700,  oncelik:"Orta",   asama:"Araştırılıyor",         son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Tedarikçi sözleşme inceleme + KEY süreç otomasyonu", gozlem:"Bilkent Holding bağlı; Beytepe Bilkent kampüs; gayrimenkul + AVM + inşaat", not_:"Generic email tahmini; Şafak Kolay CEO + Levent Güler YK Başkanı" },
@@ -543,16 +553,14 @@ const STAGE_COLORS = {
 };
 
 const SECTOR_COLORS = {
-  "Sağlık Zinciri":            ["oklch(0.30 0.08 160)", "oklch(0.65 0.16 160)"],
-  "Mühendislik / Müşavirlik":  ["oklch(0.28 0.08 240)", "oklch(0.68 0.16 240)"],
-  "Sigorta Brokerlik":         ["oklch(0.30 0.08 290)", "oklch(0.70 0.14 290)"],
-  "Sigorta":                   ["oklch(0.28 0.08 55)",  "oklch(0.72 0.16 55)"],
+  "Sağlık Zinciri":            ["#DCFCE7", "#15803D"],
+  "Mühendislik / Müşavirlik":  ["#DBEAFE", "#1D4ED8"],
+  "Sigorta Brokerlik":         ["#F3E8FF", "#7C3AED"],
+  "Sigorta":                   ["#FEF9C3", "#A16207"],
 };
 
 // ─── Web App URL ─────────────────────────────────────────────────
-// Apps Script'i deploy ettikten sonra URL'yi buraya yapıştır:
-// Deploy → New deployment → Web app → Execute as: Me → Who: Anyone → Deploy
-const WEBAPI_URL = ""; // örn: "https://script.google.com/macros/s/XXXX/exec"
+const WEBAPI_URL = "https://script.google.com/macros/s/AKfycbxVSyEB63hVPDxZzebsS_rshZYQeBNxl1F16PRCUJYVmCqrcfUXz7nZGLvUSafwFoj4UA/exec";
 
 // ─── State ────────────────────────────────────────────────────────
 let data = JSON.parse(JSON.stringify(PROSPECTS));
@@ -568,7 +576,7 @@ function initials(name) {
   return name.split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
 }
 function avatarColors(sektor) {
-  return SECTOR_COLORS[sektor] || ["oklch(0.25 0.05 255)", "oklch(0.60 0.10 255)"];
+  return SECTOR_COLORS[sektor] || ["#F3F4F6", "#374151"];
 }
 function stageCls(asama) {
   const map = {
@@ -981,11 +989,53 @@ function getNextAction(p) {
 }
 
 // ─── Init ──────────────────────────────────────────────────────────
-renderStats();
-filterData();
-setView('table');
+async function loadData(silent = false) {
+  if (!WEBAPI_URL) {
+    renderStats();
+    filterData();
+    setView('table');
+    return;
+  }
+  if (!silent) {
+    // First load: show placeholder
+    document.getElementById('tableBody').innerHTML =
+      '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--ink-3)">Veriler yükleniyor…</td></tr>';
+  }
+  setSyncIndicator('syncing');
+  try {
+    const res = await fetch(WEBAPI_URL);
+    const json = await res.json();
+    if (json.ok && Array.isArray(json.data) && json.data.length) {
+      data = json.data;
+      filtered = [...data];
+      setSyncIndicator('synced');
+      showToast(silent ? `${data.length} kayıt güncellendi` : `${data.length} kayıt yüklendi`);
+    } else {
+      setSyncIndicator('error');
+      showToast('API yanıtı boş — lokal veri gösteriliyor');
+    }
+  } catch (err) {
+    setSyncIndicator('error');
+    showToast('Bağlantı hatası — lokal veri gösteriliyor');
+  }
+  renderStats();
+  filterData();
+  if (!silent) setView('table');
+}
 
-// Keyboard shortcut: Escape to close panel
+async function refreshData() {
+  if (!WEBAPI_URL) { showToast('API URL tanımlı değil'); return; }
+  const icon = document.getElementById('refreshIcon');
+  const btn = document.getElementById('refreshBtn');
+  icon.classList.add('spinning');
+  btn.disabled = true;
+  await loadData(true);
+  icon.classList.remove('spinning');
+  btn.disabled = false;
+}
+
+loadData();
+
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeDetailPanel();
 });

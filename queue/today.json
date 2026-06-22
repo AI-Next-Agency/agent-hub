@@ -1,31 +1,31 @@
 {
-  "date": "2026-06-19",
+  "date": "2026-06-22",
   "emails": [
     {
-      "slug": "nurol-insaat",
-      "company_name": "Nurol İnşaat",
-      "contact_name": "Nurettin Akdeniz",
-      "contact_email": "info@nurolinsaat.com.tr",
-      "email_type": "D1",
-      "prospect_id": 5,
+      "slug": "gama-holding",
+      "company_name": "GAMA Holding",
+      "contact_name": "Ebru Ural Ozkan",
+      "contact_email": "holding@gama.com.tr",
+      "email_type": "D4",
+      "prospect_id": 1,
       "status": "sent"
     },
     {
-      "slug": "guven-hastanesi",
-      "company_name": "Güven Hastanesi",
-      "contact_name": "Banu Küçükel",
-      "contact_email": "guven@guven.com.tr",
-      "email_type": "D1",
-      "prospect_id": 3,
+      "slug": "memorial-saglik",
+      "company_name": "Memorial Sağlık Grubu",
+      "contact_name": "Özlem Çakar",
+      "contact_email": "kariyer@memorial.com.tr",
+      "email_type": "D4",
+      "prospect_id": 2,
       "status": "sent"
     },
     {
-      "slug": "limak-holding",
-      "company_name": "Limak Holding",
-      "contact_name": "Nihat Çukurkaya",
-      "contact_email": "limak@limak.com.tr",
+      "slug": "lokman-hekim",
+      "company_name": "Lokman Hekim",
+      "contact_name": "Büşra Bataklar",
+      "contact_email": "yatirimdanisma@lokmanhekim.com.tr",
       "email_type": "D1",
-      "prospect_id": 4,
+      "prospect_id": 6,
       "status": "sent"
     }
   ]
