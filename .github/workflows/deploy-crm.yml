@@ -30,6 +30,12 @@ jobs:
       - name: Build Next.js site
         run: bun run build
 
+      - name: Copy CRM files into out/
+        run: |
+          mkdir -p out/crm
+          cp public/crm/index.html out/crm/index.html
+          cp crm-dashboard.html out/crm-dashboard.html
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
