@@ -853,6 +853,25 @@ function openDetail(id) {
       <div class="detail-section-title">Not</div>
       <div class="detail-note">${p.not_}</div>
     </div>
+    <div class="detail-section">
+      <div class="detail-section-title">LinkedIn</div>
+      <div class="detail-grid">
+        <div class="detail-field full">
+          <label>Bağlantı Durumu</label>
+          <select class="stage-select" onchange="updateLinkedinField(${p.id}, 'linkedin_baglanti', this.value)">
+            ${['Gönderilmedi','Gönderildi','Kabul Edildi','Mesajlandı'].map(s => `<option ${p.linkedin_baglanti===s?'selected':''}>${s}</option>`).join('')}
+          </select>
+        </div>
+        <div class="detail-field full">
+          <label>Not</label>
+          <span>${p.linkedin_not || '—'}</span>
+        </div>
+      </div>
+      ${p.linkedin_url
+        ? `<a href="${p.linkedin_url}" target="_blank" rel="noopener" class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:10px;color:#0A66C2;border-color:#0A66C2">🔗 LinkedIn Profilini Aç</a>`
+        : `<div style="font-size:11px;color:var(--ink-3);margin-top:6px">LinkedIn URL girilmemiş</div>`
+      }
+    </div>
     <div class="detail-section" style="display:flex;gap:8px">
       <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="copyEmail(${p.id})">
         ✉ E-postayı Kopyala
@@ -948,6 +967,15 @@ function markContactedToday(id) {
   renderStats();
   showToast(`${p.sirket} → Son Temas bugün (${formatDate(today)})`);
   syncToSheet({ action: "updateField", id, field: "son_temas", value: today });
+  openDetail(id);
+}
+
+function updateLinkedinField(id, field, value) {
+  const p = data.find(x => x.id === id);
+  p[field] = value;
+  renderTable();
+  showToast(`${p.sirket} LinkedIn → ${value}`);
+  syncToSheet({ action: "updateLinkedin", id, [field]: value });
   openDetail(id);
 }
 
