@@ -8,415 +8,535 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  /* ─── Tokens ─────────────────────────────────────────────── */
-  :root {
-    --bg:          #FAFAFA;
-    --surface:     #FFFFFF;
-    --surface-2:   #F3F4F6;
-    --border:      #E5E7EB;
-    --border-hover:#9CA3AF;
-    --ink:         #111827;
-    --ink-2:       #374151;
-    --ink-3:       #9CA3AF;
-    --accent:      #C22C2F;
-    --accent-dim:  rgba(194,44,47,0.07);
-    --accent-hover:#A82225;
+/* ─── Tokens ─────────────────────────────────────────────── */
+:root {
+  --bg:          #FAFAFA;
+  --surface:     #FFFFFF;
+  --surface-2:   #F3F4F6;
+  --border:      #E5E7EB;
+  --border-hover:#9CA3AF;
+  --ink:         #111827;
+  --ink-2:       #374151;
+  --ink-3:       #6B7280;
+  --ink-4:       #9CA3AF;
+  --accent:      #C22C2F;
+  --accent-dim:  rgba(194,44,47,0.07);
+  --accent-hover:#A82225;
+  --li-blue:     #0A66C2;
 
-    /* Stage colors */
-    --stage-research:  #6B7280;
-    --stage-email1:    #2563EB;
-    --stage-fu1:       #7C3AED;
-    --stage-fu2:       #D97706;
-    --stage-positive:  #16A34A;
-    --stage-archive:   #9CA3AF;
+  --stage-research:  #6B7280;
+  --stage-email1:    #2563EB;
+  --stage-fu1:       #7C3AED;
+  --stage-fu2:       #D97706;
+  --stage-positive:  #16A34A;
+  --stage-archive:   #9CA3AF;
 
-    /* Priority */
-    --prio-high:   #DC2626;
-    --prio-mid:    #D97706;
-    --prio-low:    #6B7280;
+  --prio-high:   #DC2626;
+  --prio-mid:    #D97706;
+  --prio-low:    #6B7280;
 
-    --radius-sm:   0px;
-    --radius:      0px;
-    --radius-lg:   0px;
-    --font: 'Inter', system-ui, sans-serif;
-    --shadow: none;
-  }
+  --radius-sm: 0px;
+  --radius:    0px;
+  --radius-lg: 0px;
+  --font: 'Inter', system-ui, sans-serif;
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  --z-sticky: 10;
+  --z-backdrop: 50;
+  --z-panel: 51;
+  --z-toast: 100;
+}
 
-  body {
-    font-family: var(--font);
-    background-color: #FAFAFA;
-    background-image:
-      linear-gradient(#F0F0F1 1px, transparent 1px),
-      linear-gradient(90deg, #F0F0F1 1px, transparent 1px);
-    background-size: 20px 20px;
-    color: var(--ink);
-    font-size: 14px;
-    line-height: 1.5;
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* ─── Layout ─────────────────────────────────────────────── */
-  .app { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+body {
+  font-family: var(--font);
+  background-color: #FAFAFA;
+  background-image:
+    linear-gradient(#F0F0F1 1px, transparent 1px),
+    linear-gradient(90deg, #F0F0F1 1px, transparent 1px);
+  background-size: 20px 20px;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
 
-  /* ─── Top bar ─────────────────────────────────────────────── */
-  .topbar {
-    display: flex; align-items: center; gap: 16px;
-    padding: 0 24px;
-    height: 52px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-    z-index: 10;
-  }
-  .topbar-logo {
-    display: flex; align-items: center; gap: 8px;
-    font-weight: 700; font-size: 15px; letter-spacing: -0.02em;
-    color: var(--ink); user-select: none;
-  }
-  .topbar-logo-dot {
-    width: 7px; height: 7px;
-    background: var(--accent);
-  }
-  .topbar-divider { width: 1px; height: 20px; background: var(--border); }
-  .topbar-title { color: var(--ink-2); font-size: 13px; }
-  .topbar-spacer { flex: 1; }
-  .topbar-stats { display: flex; gap: 20px; }
-  .stat-chip {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 12px; color: var(--ink-3);
-  }
-  .stat-chip strong { color: var(--ink); font-weight: 600; font-size: 13px; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 6px 14px; border-radius: var(--radius-sm);
-    font: 500 13px/1 var(--font); cursor: pointer;
-    border: 1px solid transparent; transition: all 0.15s ease;
-  }
-  .btn-primary {
-    background: var(--accent); color: #FFFFFF;
-    border-color: var(--accent);
-  }
-  .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
-  .btn-ghost {
-    background: transparent; color: var(--ink-2);
-    border-color: var(--border);
-  }
-  .btn-ghost:hover { background: var(--surface-2); color: var(--ink); border-color: var(--border-hover); }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .spinning { animation: spin 0.7s linear infinite; }
+/* ─── Layout ─────────────────────────────────────────────── */
+.app { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
-  /* ─── Toolbar ─────────────────────────────────────────────── */
-  .toolbar {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 24px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-  .search-wrap {
-    position: relative; flex: 0 0 260px;
-  }
-  .search-icon {
-    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-    color: var(--ink-3); pointer-events: none;
-  }
-  .search {
-    width: 100%; padding: 6px 10px 6px 32px;
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: var(--radius-sm); color: var(--ink);
-    font: 13px var(--font); outline: none;
-    transition: border-color 0.15s;
-  }
-  .search::placeholder { color: var(--ink-3); }
-  .search:focus { border-color: var(--accent); }
-  .filter-group { display: flex; gap: 8px; }
-  .filter-select {
-    padding: 6px 28px 6px 10px; background: var(--bg);
-    border: 1px solid var(--border); border-radius: var(--radius-sm);
-    color: var(--ink-2); font: 13px var(--font); outline: none;
-    cursor: pointer; appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 8px center;
-    transition: border-color 0.15s;
-  }
-  .filter-select:focus, .filter-select:hover { border-color: var(--border-hover); }
-  .toolbar-spacer { flex: 1; }
-  .view-toggle { display: flex; gap: 2px; }
-  .view-btn {
-    padding: 5px 8px; border-radius: var(--radius-sm);
-    border: 1px solid var(--border); background: transparent;
-    color: var(--ink-3); cursor: pointer; transition: all 0.15s;
-    font-size: 0;
-  }
-  .view-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
-  .view-btn:hover:not(.active) { background: var(--surface-2); color: var(--ink-2); }
-  .count-badge {
-    padding: 2px 7px;
-    background: var(--surface-2); border: 1px solid var(--border);
-    font-size: 12px; color: var(--ink-3);
-  }
+/* ─── Top bar ─────────────────────────────────────────────── */
+.topbar {
+  display: flex; align-items: center; gap: 16px;
+  padding: 0 24px;
+  height: 52px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  z-index: var(--z-sticky);
+}
+.topbar-logo {
+  display: flex; align-items: center; gap: 8px;
+  font-weight: 700; font-size: 15px; letter-spacing: -0.02em;
+  color: var(--ink); user-select: none; flex-shrink: 0;
+}
+.topbar-logo-dot { width: 7px; height: 7px; background: var(--accent); }
+.topbar-divider { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; }
+.topbar-title { color: var(--ink-3); font-size: 13px; flex-shrink: 0; }
+.topbar-spacer { flex: 1; }
+.topbar-stats { display: flex; gap: 20px; }
+.stat-chip {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--ink-3);
+}
+.stat-chip strong { color: var(--ink); font-weight: 600; font-size: 13px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: var(--radius-sm);
+  font: 500 13px/1 var(--font); cursor: pointer;
+  border: 1px solid transparent; transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.btn-primary { background: var(--accent); color: #FFFFFF; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn-ghost { background: transparent; color: var(--ink-2); border-color: var(--border); }
+.btn-ghost:hover { background: var(--surface-2); color: var(--ink); border-color: var(--border-hover); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinning { animation: spin 0.7s linear infinite; }
 
-  /* ─── Main content ─────────────────────────────────────────── */
-  .main { flex: 1; overflow: auto; padding: 20px 24px; }
+/* ─── Toolbar ─────────────────────────────────────────────── */
+.toolbar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 24px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.search-wrap { position: relative; flex: 0 0 260px; }
+.search-icon {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  color: var(--ink-4); pointer-events: none;
+}
+.search {
+  width: 100%; padding: 6px 10px 6px 32px;
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--ink); font: 13px var(--font); outline: none;
+  transition: border-color 0.15s;
+}
+.search::placeholder { color: var(--ink-4); }
+.search:focus { border-color: var(--accent); }
+.filter-group { display: flex; gap: 8px; }
+.filter-select {
+  padding: 6px 28px 6px 10px; background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--ink-2); font: 13px var(--font); outline: none;
+  cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 8px center;
+  transition: border-color 0.15s;
+}
+.filter-select:focus, .filter-select:hover { border-color: var(--border-hover); }
+.toolbar-spacer { flex: 1; }
+.view-toggle { display: flex; gap: 2px; }
+.view-btn {
+  padding: 5px 8px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--ink-4); cursor: pointer; transition: background 0.12s, color 0.12s, border-color 0.12s;
+  font-size: 0;
+}
+.view-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+.view-btn:hover:not(.active) { background: var(--surface-2); color: var(--ink-2); }
+.count-badge {
+  padding: 2px 8px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  font-size: 12px; color: var(--ink-3); flex-shrink: 0;
+}
 
-  /* ─── Table view ─────────────────────────────────────────── */
-  .table-wrap {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-  table { width: 100%; border-collapse: collapse; }
-  thead { background: var(--bg); }
-  th {
-    padding: 10px 14px;
-    text-align: left; font-size: 11px; font-weight: 600;
-    color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase;
-    border-bottom: 1px solid var(--border); white-space: nowrap;
-    cursor: pointer; user-select: none;
-  }
-  th:hover { color: var(--ink-2); }
-  th .sort-icon { opacity: 0.4; margin-left: 4px; }
-  th.sorted .sort-icon { opacity: 1; color: var(--accent); }
+/* ─── Dashboard Strip ────────────────────────────────────── */
+.dash-strip {
+  display: flex; align-items: stretch; gap: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+.dash-strip::-webkit-scrollbar { display: none; }
+.dash-section {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 24px;
+  flex-shrink: 0;
+}
+.dash-section-label {
+  font-size: 10px; font-weight: 600; color: var(--ink-4);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  white-space: nowrap; flex-shrink: 0;
+}
+.dash-divider { width: 1px; background: var(--border); flex-shrink: 0; align-self: stretch; margin: 8px 0; }
 
-  tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background 0.1s;
-    cursor: pointer;
-  }
-  tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: var(--surface-2); }
-  tbody tr.selected { background: var(--accent-dim); }
+/* Funnel */
+.dash-funnel { display: flex; align-items: center; gap: 4px; }
+.funnel-item {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  cursor: pointer; transition: border-color 0.12s, background 0.12s;
+  white-space: nowrap;
+}
+.funnel-item:hover { border-color: var(--border-hover); background: var(--surface-2); }
+.funnel-item.active { border-color: var(--accent); background: var(--accent-dim); }
+.funnel-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.funnel-count { font-size: 13px; font-weight: 600; color: var(--ink); }
+.funnel-label { font-size: 11px; color: var(--ink-3); }
+.funnel-arrow {
+  font-size: 11px; color: var(--border);
+  margin: 0 -1px;
+}
 
-  td { padding: 11px 14px; vertical-align: middle; }
+/* Schedule */
+.dash-schedule { display: flex; align-items: center; gap: 6px; }
+.schedule-slot {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  white-space: nowrap; position: relative;
+}
+.schedule-slot .slot-time { font-size: 12px; font-weight: 600; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.schedule-slot .slot-label { font-size: 11px; color: var(--ink-4); }
+.schedule-slot .slot-icon { font-size: 11px; }
+.schedule-slot.ran { border-color: #D1FAE5; background: #F0FDF4; }
+.schedule-slot.ran .slot-time { color: #15803D; }
+.schedule-slot.ran .slot-label { color: #15803D; }
+.schedule-slot.running { border-color: #FDE68A; background: #FFFBEB; }
+.schedule-slot.running .slot-time { color: #D97706; font-weight: 700; }
+.schedule-slot.running .slot-label { color: #D97706; }
+@keyframes pulse-ring {
+  0%   { transform: scale(1);   opacity: 1; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.schedule-slot.running .slot-icon { position: relative; }
+.schedule-slot.running .slot-icon::after {
+  content: ''; position: absolute; inset: -3px;
+  background: #D97706; border-radius: 50%;
+  animation: pulse-ring 1s ease-out infinite;
+}
+.schedule-slot.pending { border-color: var(--border); background: transparent; opacity: 0.5; }
+.schedule-slot.next { border-color: var(--border); background: transparent; opacity: 1; }
+.schedule-slot.next .slot-time { color: var(--ink-2); }
 
-  .company-cell { display: flex; align-items: center; gap: 10px; }
-  .company-avatar {
-    width: 30px; height: 30px; border-radius: var(--radius-sm);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 11px;
-    flex-shrink: 0; letter-spacing: 0;
-  }
-  .company-name { font-weight: 500; font-size: 13px; color: var(--ink); }
-  .company-sector { font-size: 11px; color: var(--ink-3); margin-top: 1px; }
+/* ─── Main content ─────────────────────────────────────────── */
+.main { flex: 1; overflow: auto; padding: 20px 24px; }
 
-  .contact-name { font-size: 13px; color: var(--ink); }
-  .contact-role { font-size: 11px; color: var(--ink-3); margin-top: 1px; }
-  .contact-email { font-size: 11px; color: var(--accent); margin-top: 1px; }
+/* ─── Table view ─────────────────────────────────────────── */
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+table { width: 100%; border-collapse: collapse; }
+thead { background: var(--bg); }
+th {
+  padding: 9px 14px;
+  text-align: left; font-size: 11px; font-weight: 600;
+  color: var(--ink-4); letter-spacing: 0.06em; text-transform: uppercase;
+  border-bottom: 1px solid var(--border); white-space: nowrap;
+  cursor: pointer; user-select: none;
+}
+th:hover { color: var(--ink-3); }
+th .sort-icon { opacity: 0.4; margin-left: 4px; }
+th.sorted .sort-icon { opacity: 1; color: var(--accent); }
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+  cursor: pointer;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--surface-2); }
+tbody tr.selected { background: var(--accent-dim); }
+td { padding: 10px 14px; vertical-align: middle; }
 
-  /* Stage badge */
-  .stage-badge {
-    display: inline-flex; align-items: center; gap: 5px;
-    padding: 3px 9px;
-    font-size: 11px; font-weight: 500; white-space: nowrap;
-  }
-  .stage-badge::before {
-    content: ''; width: 5px; height: 5px; border-radius: 50%;
-    background: currentColor; flex-shrink: 0;
-  }
-  .stage-Araştırılıyor   { color: var(--stage-research); background: rgba(107,114,128,0.10); }
-  .stage-Email1          { color: var(--stage-email1);   background: rgba(37,99,235,0.10); }
-  .stage-Followup1       { color: var(--stage-fu1);      background: rgba(124,58,237,0.10); }
-  .stage-Followup2       { color: var(--stage-fu2);      background: rgba(217,119,6,0.10); }
-  .stage-Pozitif         { color: var(--stage-positive); background: rgba(22,163,74,0.10); }
-  .stage-Arşiv           { color: var(--stage-archive);  background: rgba(156,163,175,0.10); }
+.company-cell { display: flex; align-items: center; gap: 10px; }
+.company-avatar {
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 11px;
+  flex-shrink: 0; letter-spacing: 0;
+}
+.company-name { font-weight: 500; font-size: 13px; color: var(--ink); }
+.company-sector { font-size: 11px; color: var(--ink-4); margin-top: 1px; }
 
-  /* Priority */
-  .prio-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 11px; font-weight: 500; padding: 2px 7px;
-  }
-  .prio-Yüksek { color: var(--prio-high); background: rgba(220,38,38,0.08); }
-  .prio-Orta   { color: var(--prio-mid);  background: rgba(217,119,6,0.08); }
-  .prio-Düşük  { color: var(--prio-low);  background: rgba(107,114,128,0.08); }
+.contact-name { font-size: 13px; color: var(--ink); }
+.contact-role { font-size: 11px; color: var(--ink-4); margin-top: 1px; }
 
-  .date-cell { font-size: 12px; color: var(--ink-2); white-space: nowrap; }
-  .date-cell.overdue { color: var(--prio-high); font-weight: 500; }
-  .date-cell.soon    { color: var(--prio-mid);  }
-  .date-cell.empty   { color: var(--ink-3); }
+/* Stage badge */
+.stage-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 8px;
+  font-size: 11px; font-weight: 500; white-space: nowrap;
+}
+.stage-badge::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: currentColor; flex-shrink: 0;
+}
+.stage-badge.overdue::before {
+  animation: blink 1.4s ease-in-out infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+.stage-Araştırılıyor   { color: var(--stage-research); background: rgba(107,114,128,0.10); }
+.stage-Email1          { color: var(--stage-email1);   background: rgba(37,99,235,0.10); }
+.stage-Followup1       { color: var(--stage-fu1);      background: rgba(124,58,237,0.10); }
+.stage-Followup2       { color: var(--stage-fu2);      background: rgba(217,119,6,0.10); }
+.stage-Pozitif         { color: var(--stage-positive); background: rgba(22,163,74,0.10); }
+.stage-Arşiv           { color: var(--stage-archive);  background: rgba(156,163,175,0.10); }
 
-  .employees { font-size: 12px; color: var(--ink-2); }
+/* Priority */
+.prio-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 500; padding: 2px 7px;
+}
+.prio-Yüksek { color: var(--prio-high); background: rgba(220,38,38,0.08); }
+.prio-Orta   { color: var(--prio-mid);  background: rgba(217,119,6,0.08); }
+.prio-Düşük  { color: var(--prio-low);  background: rgba(107,114,128,0.08); }
 
-  .row-actions {
-    display: flex; gap: 4px; opacity: 0;
-    transition: opacity 0.15s;
-  }
-  tbody tr:hover .row-actions { opacity: 1; }
-  .row-act-btn {
-    padding: 4px 8px; border-radius: var(--radius-sm);
-    border: 1px solid var(--border); background: var(--surface-2);
-    color: var(--ink-2); font: 11px var(--font); cursor: pointer;
-    transition: all 0.12s;
-  }
-  .row-act-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.date-cell { font-size: 12px; color: var(--ink-2); white-space: nowrap; }
+.date-cell.overdue { color: var(--prio-high); font-weight: 500; }
+.date-cell.soon    { color: var(--prio-mid); }
+.date-cell.empty   { color: var(--ink-4); }
 
-  /* ─── Kanban view ─────────────────────────────────────────── */
-  .kanban { display: none; gap: 14px; padding-bottom: 20px; align-items: flex-start; }
-  .kanban-col {
-    flex: 0 0 260px; background: var(--surface);
-    border: 1px solid var(--border); border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-  .kanban-col-header {
-    display: flex; align-items: center; gap: 8px;
-    padding: 12px 14px; border-bottom: 1px solid var(--border);
-    background: var(--bg);
-  }
-  .kanban-stage-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .kanban-col-title { font-size: 12px; font-weight: 600; color: var(--ink-2); flex: 1; }
-  .kanban-count {
-    font-size: 11px; color: var(--ink-3);
-    background: var(--surface-2); border: 1px solid var(--border);
-    padding: 1px 6px;
-  }
-  .kanban-cards { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
-  .kanban-card {
-    background: var(--surface-2); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 12px;
-    cursor: pointer; transition: all 0.15s;
-  }
-  .kanban-card:hover { border-color: var(--border-hover); }
-  .kanban-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
-  .kanban-card-name { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.3; }
-  .kanban-card-meta { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-  .kanban-card-contact { font-size: 11px; color: var(--ink-3); }
-  .kanban-empty {
-    padding: 20px; text-align: center; font-size: 12px; color: var(--ink-3);
-  }
+.employees { font-size: 12px; color: var(--ink-3); }
 
-  /* ─── Detail panel ─────────────────────────────────────────── */
-  .detail-overlay {
-    position: fixed; inset: 0; background: oklch(0 0 0 / 0.6);
-    z-index: 50; display: none; align-items: flex-start; justify-content: flex-end;
-  }
-  .detail-overlay.open { display: flex; }
-  .detail-panel {
-    width: 420px; height: 100vh; overflow-y: auto;
-    background: var(--surface); border-left: 1px solid var(--border);
-    transform: translateX(100%); transition: transform 0.2s cubic-bezier(0.16,1,0.3,1);
-    display: flex; flex-direction: column;
-  }
-  .detail-overlay.open .detail-panel { transform: translateX(0); }
-  .detail-header {
-    display: flex; align-items: center; gap: 12px;
-    padding: 16px 20px; border-bottom: 1px solid var(--border);
-    position: sticky; top: 0; background: var(--surface); z-index: 1;
-  }
-  .detail-close {
-    margin-left: auto; padding: 6px; border-radius: var(--radius-sm);
-    border: 1px solid var(--border); background: transparent;
-    color: var(--ink-3); cursor: pointer; transition: all 0.12s;
-  }
-  .detail-close:hover { background: var(--surface-2); color: var(--ink); }
-  .detail-body { padding: 20px; flex: 1; }
-  .detail-section { margin-bottom: 24px; }
-  .detail-section-title {
-    font-size: 10px; font-weight: 600; color: var(--ink-3);
-    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;
-  }
-  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .detail-field label { font-size: 11px; color: var(--ink-3); display: block; margin-bottom: 3px; }
-  .detail-field span { font-size: 13px; color: var(--ink); }
-  .detail-field.full { grid-column: 1 / -1; }
-  .detail-note {
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 12px;
-    font-size: 13px; color: var(--ink-2); line-height: 1.6;
-  }
-  .stage-select-wrap { position: relative; }
-  .stage-select {
-    width: 100%; padding: 7px 28px 7px 10px;
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: var(--radius-sm); color: var(--ink);
-    font: 13px var(--font); outline: none; cursor: pointer; appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 8px center;
-  }
-  .stage-select:focus { border-color: var(--accent); }
+/* LinkedIn badge in table */
+.li-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 8px; font-size: 11px; font-weight: 500;
+  cursor: pointer; transition: opacity 0.12s;
+  white-space: nowrap; user-select: none;
+  border: 1px solid transparent;
+}
+.li-badge:hover { opacity: 0.75; }
+.li-badge .li-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.li-none     { color: var(--ink-4); border-color: transparent; background: transparent; }
+.li-request  { color: var(--li-blue); background: rgba(10,102,194,0.08); }
+.li-accepted { color: #16A34A; background: rgba(22,163,74,0.08); }
+.li-comment  { color: #7C3AED; background: rgba(124,58,237,0.08); }
+.li-messaged { color: #D97706; background: rgba(217,119,6,0.08); }
 
-  /* ─── Empty state ────────────────────────────────────────── */
-  .empty-state {
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; gap: 12px;
-    padding: 60px 20px; color: var(--ink-3); text-align: center;
-  }
-  .empty-state svg { opacity: 0.3; }
-  .empty-state p { font-size: 13px; }
+.row-actions {
+  display: flex; gap: 4px; opacity: 0;
+  transition: opacity 0.15s;
+}
+tbody tr:hover .row-actions { opacity: 1; }
+.row-act-btn {
+  padding: 3px 8px;
+  border: 1px solid var(--border); background: var(--surface-2);
+  color: var(--ink-2); font: 11px var(--font); cursor: pointer;
+  transition: border-color 0.12s, color 0.12s, background 0.12s;
+}
+.row-act-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
 
-  /* ─── Toast ───────────────────────────────────────────────── */
-  .toast {
-    position: fixed; bottom: 24px; right: 24px;
-    padding: 10px 16px;
-    background: var(--ink); color: var(--bg);
-    font-size: 13px; font-weight: 500;
-    transform: translateY(12px); opacity: 0;
-    transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
-    pointer-events: none; z-index: 100;
-    box-shadow: var(--shadow);
-  }
-  .toast.show { transform: translateY(0); opacity: 1; }
+/* ─── Kanban view ─────────────────────────────────────────── */
+.kanban { display: none; gap: 14px; padding-bottom: 20px; align-items: flex-start; }
+.kanban-col {
+  flex: 0 0 260px; background: var(--surface);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.kanban-col-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.kanban-stage-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.kanban-col-title { font-size: 12px; font-weight: 600; color: var(--ink-2); flex: 1; }
+.kanban-count {
+  font-size: 11px; color: var(--ink-4);
+  background: var(--surface-2); border: 1px solid var(--border);
+  padding: 1px 6px;
+}
+.kanban-cards { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+.kanban-card {
+  background: var(--surface-2); border: 1px solid var(--border);
+  padding: 11px; cursor: pointer;
+  transition: border-color 0.15s;
+}
+.kanban-card:hover { border-color: var(--border-hover); }
+.kanban-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.kanban-card-name { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+.kanban-card-meta { display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.kanban-card-contact { font-size: 11px; color: var(--ink-4); }
+.kanban-empty { padding: 20px; text-align: center; font-size: 12px; color: var(--ink-4); }
 
-  /* ─── Card list (mobile) ─────────────────────────────────── */
-  .card-list { display: none; flex-direction: column; gap: 8px; }
-  .prospect-card {
-    background: var(--surface); border: 1px solid var(--border);
-    padding: 14px; cursor: pointer; transition: border-color 0.12s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .prospect-card:active { background: var(--surface-2); }
-  .card-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
-  .card-company { flex: 1; min-width: 0; }
-  .card-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .card-contact { font-size: 11px; color: var(--ink-3); margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* ─── Detail panel ─────────────────────────────────────────── */
+.detail-overlay {
+  position: fixed; inset: 0; background: oklch(0 0 0 / 0.5);
+  z-index: var(--z-backdrop); display: none; align-items: flex-start; justify-content: flex-end;
+}
+.detail-overlay.open { display: flex; }
+.detail-panel {
+  width: 440px; height: 100vh; overflow-y: auto;
+  background: var(--surface); border-left: 1px solid var(--border);
+  transform: translateX(100%); transition: transform 0.22s cubic-bezier(0.16,1,0.3,1);
+  display: flex; flex-direction: column;
+  z-index: var(--z-panel);
+}
+.detail-overlay.open .detail-panel { transform: translateX(0); }
+.detail-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: var(--surface); z-index: 1;
+}
+.detail-close {
+  margin-left: auto; padding: 6px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--ink-4); cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.detail-close:hover { background: var(--surface-2); color: var(--ink); }
+.detail-body { padding: 20px; flex: 1; }
+.detail-section { margin-bottom: 20px; }
+.detail-section-title {
+  font-size: 10px; font-weight: 600; color: var(--ink-4);
+  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;
+}
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.detail-field label { font-size: 11px; color: var(--ink-4); display: block; margin-bottom: 3px; }
+.detail-field span { font-size: 13px; color: var(--ink); }
+.detail-field.full { grid-column: 1 / -1; }
+.detail-note {
+  background: var(--bg); border: 1px solid var(--border);
+  padding: 11px 12px; font-size: 13px; color: var(--ink-2); line-height: 1.6;
+}
+.stage-select-wrap { position: relative; }
+.stage-select {
+  width: 100%; padding: 7px 28px 7px 10px;
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--ink); font: 13px var(--font); outline: none; cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 8px center;
+  transition: border-color 0.15s;
+}
+.stage-select:focus { border-color: var(--accent); }
 
-  /* ─── Responsive ─────────────────────────────────────────── */
-  @media (max-width: 900px) {
-    .topbar-stats { display: none; }
-    .toolbar { flex-wrap: wrap; gap: 8px; }
-    .search-wrap { flex: 1 1 180px; }
-    .detail-panel { width: 100vw; border-left: none; }
-    td.hide-sm, th.hide-sm { display: none; }
-  }
+/* LinkedIn activity buttons */
+.li-activity-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+  margin-top: 8px;
+}
+.li-activity-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 10px;
+  border: 1px solid var(--border); background: var(--bg);
+  font: 12px var(--font); color: var(--ink-2); cursor: pointer;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+  text-align: left;
+}
+.li-activity-btn:hover { border-color: var(--border-hover); background: var(--surface-2); color: var(--ink); }
+.li-activity-btn.selected { border-color: currentColor; background: transparent; }
+.li-activity-btn .li-btn-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.li-activity-btn.is-none     { --c: var(--ink-4); color: var(--c); }
+.li-activity-btn.is-request  { --c: var(--li-blue); color: var(--c); }
+.li-activity-btn.is-accepted { --c: #16A34A; color: var(--c); }
+.li-activity-btn.is-comment  { --c: #7C3AED; color: var(--c); }
+.li-activity-btn.is-messaged { --c: #D97706; color: var(--c); }
+.li-activity-btn.selected { background: oklch(from var(--c) l c h / 0.06); }
 
-  @media (max-width: 600px) {
-    .topbar { padding: 0 12px; gap: 8px; }
-    .topbar-divider, .topbar-title { display: none; }
-    .topbar-stats { display: none; }
-    .btn-label { display: none; }
+.li-note-input {
+  width: 100%; padding: 8px 10px; margin-top: 8px;
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--ink); font: 13px/1.5 var(--font); outline: none; resize: vertical;
+  min-height: 64px; transition: border-color 0.15s;
+}
+.li-note-input::placeholder { color: var(--ink-4); }
+.li-note-input:focus { border-color: var(--accent); }
 
-    .toolbar { padding: 8px 12px; }
-    .search-wrap { flex: 1 1 100%; }
-    .filter-group { flex: 0 0 100%; display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
-    .filter-group::-webkit-scrollbar { display: none; }
-    .filter-select { flex-shrink: 0; font-size: 12px; padding: 5px 24px 5px 8px; }
+/* ─── Next action box ─────────────────────────────────────── */
+.next-action-box {
+  background: var(--bg); border: 1px solid var(--border);
+  padding: 11px 12px;
+}
+.next-action-text {
+  font-size: 13px; font-weight: 500;
+}
+.next-action-sub { font-size: 11px; color: var(--ink-4); margin-top: 3px; }
 
-    .main { padding: 10px 12px; }
+/* ─── Empty state ────────────────────────────────────────── */
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 12px;
+  padding: 60px 20px; color: var(--ink-4); text-align: center;
+}
+.empty-state svg { opacity: 0.3; }
+.empty-state p { font-size: 13px; }
 
-    /* swap table for cards */
-    .table-wrap { display: none !important; }
-    .card-list { display: flex; }
+/* ─── Toast ───────────────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  padding: 10px 16px;
+  background: var(--ink); color: var(--bg);
+  font-size: 13px; font-weight: 500;
+  transform: translateY(12px); opacity: 0;
+  transition: transform 0.2s cubic-bezier(0.16,1,0.3,1), opacity 0.2s;
+  pointer-events: none; z-index: var(--z-toast);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
 
-    .detail-panel { width: 100vw; max-width: 100vw; }
-    .detail-body { padding: 16px; }
-    .detail-grid { grid-template-columns: 1fr; }
-    .detail-field.full { grid-column: 1; }
-  }
+/* ─── Card list (mobile) ─────────────────────────────────── */
+.card-list { display: none; flex-direction: column; gap: 8px; }
+.prospect-card {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 14px; cursor: pointer; transition: border-color 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.prospect-card:active { background: var(--surface-2); }
+.card-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.card-company { flex: 1; min-width: 0; }
+.card-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.card-contact { font-size: 11px; color: var(--ink-4); margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  /* ─── Scrollbar ──────────────────────────────────────────── */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  td.hide-md, th.hide-md { display: none; }
+}
+@media (max-width: 900px) {
+  .topbar-stats { display: none; }
+  .toolbar { flex-wrap: wrap; gap: 8px; }
+  .search-wrap { flex: 1 1 180px; }
+  .detail-panel { width: 100vw; border-left: none; }
+  td.hide-sm, th.hide-sm { display: none; }
+  .dash-section-label { display: none; }
+}
+@media (max-width: 600px) {
+  .topbar { padding: 0 12px; gap: 8px; }
+  .topbar-divider, .topbar-title { display: none; }
+  .btn-label { display: none; }
+  .toolbar { padding: 8px 12px; }
+  .search-wrap { flex: 1 1 100%; }
+  .filter-group { flex: 0 0 100%; display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+  .filter-group::-webkit-scrollbar { display: none; }
+  .filter-select { flex-shrink: 0; font-size: 12px; padding: 5px 24px 5px 8px; }
+  .main { padding: 10px 12px; }
+  .table-wrap { display: none !important; }
+  .card-list { display: flex; }
+  .detail-panel { width: 100vw; max-width: 100vw; }
+  .detail-body { padding: 16px; }
+  .detail-grid { grid-template-columns: 1fr; }
+  .detail-field.full { grid-column: 1; }
+  .dash-strip { display: none; }
+}
 
-  /* ─── Focus visible ─────────────────────────────────────── */
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* ─── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
 
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { transition: none !important; animation: none !important; }
-  }
+/* ─── Focus ─────────────────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
 </style>
 </head>
 <body>
@@ -432,14 +552,14 @@
     <span class="topbar-title">Pipeline CRM</span>
     <div class="topbar-spacer"></div>
     <div class="topbar-stats" id="topStats"></div>
-    <span id="syncIndicator" style="font-size:11px;color:var(--ink-3);transition:color 0.3s"></span>
-    <button class="btn btn-ghost" id="refreshBtn" onclick="refreshData()" title="Verileri güncelle" style="padding:6px 10px">
+    <span id="syncIndicator" style="font-size:11px;color:var(--ink-4);transition:color 0.3s;flex-shrink:0"></span>
+    <button class="btn btn-ghost" id="refreshBtn" onclick="refreshData()" title="Verileri güncelle" style="padding:6px 10px;flex-shrink:0">
       <svg id="refreshIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:block">
         <path d="M1 4v6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M3.51 15a9 9 0 1 0 .49-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
-    <button class="btn btn-primary" onclick="openAddModal()">
+    <button class="btn btn-primary" onclick="openAddModal()" style="flex-shrink:0">
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       <span class="btn-label">Yeni Kayıt</span>
     </button>
@@ -478,23 +598,36 @@
         <option>Düşük</option>
       </select>
     </div>
-    <div class="topbar-spacer"></div>
+    <div class="toolbar-spacer"></div>
     <span class="count-badge" id="countBadge">15 kayıt</span>
     <div class="view-toggle">
       <button class="view-btn active" id="tableViewBtn" onclick="setView('table')" title="Tablo görünümü" aria-label="Tablo görünümü">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <rect x="1" y="1" width="12" height="3" rx="1" stroke="currentColor" stroke-width="1.4"/>
-          <rect x="1" y="6" width="12" height="3" rx="1" stroke="currentColor" stroke-width="1.4"/>
-          <rect x="1" y="11" width="12" height="2" rx="1" stroke="currentColor" stroke-width="1.4"/>
+          <rect x="1" y="1" width="12" height="3" rx="0" stroke="currentColor" stroke-width="1.4"/>
+          <rect x="1" y="6" width="12" height="3" rx="0" stroke="currentColor" stroke-width="1.4"/>
+          <rect x="1" y="11" width="12" height="2" rx="0" stroke="currentColor" stroke-width="1.4"/>
         </svg>
       </button>
       <button class="view-btn" id="kanbanViewBtn" onclick="setView('kanban')" title="Kanban görünümü" aria-label="Kanban görünümü">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <rect x="1" y="1" width="3.5" height="12" rx="1" stroke="currentColor" stroke-width="1.4"/>
-          <rect x="5.25" y="1" width="3.5" height="8" rx="1" stroke="currentColor" stroke-width="1.4"/>
-          <rect x="9.5" y="1" width="3.5" height="10" rx="1" stroke="currentColor" stroke-width="1.4"/>
+          <rect x="1" y="1" width="3.5" height="12" rx="0" stroke="currentColor" stroke-width="1.4"/>
+          <rect x="5.25" y="1" width="3.5" height="8" rx="0" stroke="currentColor" stroke-width="1.4"/>
+          <rect x="9.5" y="1" width="3.5" height="10" rx="0" stroke="currentColor" stroke-width="1.4"/>
         </svg>
       </button>
+    </div>
+  </div>
+
+  <!-- Dashboard Strip -->
+  <div class="dash-strip" id="dashStrip">
+    <div class="dash-section">
+      <span class="dash-section-label">Pipeline</span>
+      <div class="dash-funnel" id="dashFunnel"></div>
+    </div>
+    <div class="dash-divider"></div>
+    <div class="dash-section">
+      <span class="dash-section-label">Bugün</span>
+      <div class="dash-schedule" id="dashSchedule"></div>
     </div>
   </div>
 
@@ -508,9 +641,10 @@
             <th onclick="sortBy('sirket')">Şirket <span class="sort-icon">↕</span></th>
             <th onclick="sortBy('karar_verici')" class="hide-sm">Karar Verici <span class="sort-icon">↕</span></th>
             <th onclick="sortBy('asama')">Aşama <span class="sort-icon">↕</span></th>
-            <th onclick="sortBy('oncelik')">Öncelik <span class="sort-icon">↕</span></th>
+            <th>LinkedIn</th>
+            <th onclick="sortBy('oncelik')" class="hide-sm">Öncelik <span class="sort-icon">↕</span></th>
             <th onclick="sortBy('son_temas')" class="hide-sm">Son Temas <span class="sort-icon">↕</span></th>
-            <th onclick="sortBy('calisanlar')" class="hide-sm">Çalışan <span class="sort-icon">↕</span></th>
+            <th onclick="sortBy('calisanlar')" class="hide-md">Çalışan <span class="sort-icon">↕</span></th>
             <th class="hide-sm">İşlem</th>
           </tr>
         </thead>
@@ -535,10 +669,10 @@
 <div class="detail-overlay" id="detailOverlay" onclick="closeDetail(event)">
   <div class="detail-panel" id="detailPanel">
     <div class="detail-header">
-      <div id="detailAvatar" class="company-avatar" style="width:36px;height:36px;font-size:13px;"></div>
-      <div>
-        <div id="detailName" style="font-weight:600;font-size:15px;"></div>
-        <div id="detailSector" style="font-size:12px;color:var(--ink-3);"></div>
+      <div id="detailAvatar" class="company-avatar" style="width:36px;height:36px;font-size:13px;flex-shrink:0"></div>
+      <div style="min-width:0">
+        <div id="detailName" style="font-weight:600;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
+        <div id="detailSector" style="font-size:12px;color:var(--ink-4);"></div>
       </div>
       <button class="detail-close" onclick="closeDetailPanel()" aria-label="Kapat">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -554,25 +688,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── Data ──────────────────────────────────────────────────────────
-const PROSPECTS = [
-  { id:1,  sirket:"GAMA Holding",          sektor:"Mühendislik / Müşavirlik", karar_verici:"Ebru Ural Ozkan",    rol:"İK ve Kurumsal Gelişim Grup Müdürü", eposta:"holding@gama.com.tr",           calisanlar:1500, oncelik:"Yüksek", asama:"Follow-up 1 Gönderildi",    son_temas:"2026-06-22", fu1:"2026-06-22", fu2:"", yanit:false, otomasyon:"EPC teklif hazırlama otomasyonu + saha mühendisi günlük raporlarını yönetim özetine dönüştürme", gozlem:"GOP Ankara HQ; inşaat + enerji + turizm + çimento + teknoloji çok-divisyonlu", not_:"Verified kurumsal email; Ebru Ural Ozkan basın bültenlerinde adlandırılmış", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:2,  sirket:"Memorial Sağlık Grubu", sektor:"Sağlık Zinciri",            karar_verici:"Özlem Çakar",        rol:"İK Direktörü (Kurumsal)",            eposta:"kariyer@memorial.com.tr",        calisanlar:2000, oncelik:"Yüksek", asama:"Follow-up 1 Gönderildi",    son_temas:"2026-06-22", fu1:"2026-06-22", fu2:"", yanit:false, otomasyon:"Hekim klinik notlarını ICD-10 kodlamasına AI ile çevirme + hasta deneyim anketlerini canlı bültene dönüştürme", gozlem:"JCI akrediteli Türkiye'nin en büyük özel sağlık gruplarından; Memorial Ankara şubesi Çankaya'da", not_:"Generic kariyer kanalı; Özlem Çakar İK Direktörü Memorial Healthcare LinkedIn", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:3,  sirket:"Güven Hastanesi",       sektor:"Sağlık Zinciri",            karar_verici:"Banu Küçükel",       rol:"YK Başkanı",                         eposta:"guven@guven.com.tr",             calisanlar:600,  oncelik:"Yüksek", asama:"Email 1 Gönderildi",    son_temas:"2026-06-19", fu1:"", fu2:"", yanit:false, otomasyon:"Çağrı merkezi ses analizinden hasta deneyim raporu + radyoloji ön-rapor AI yardımcısı", gozlem:"Kavaklıdere ve Çayyolu kampüsleri; 1976'dan beri Ankara", not_:"Verified kurumsal email; Banu Küçükel Facebook duyurularında", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:4,  sirket:"Limak Holding",         sektor:"Mühendislik / Müşavirlik", karar_verici:"Nihat Çukurkaya",    rol:"İK Direktörü (Limak İnşaat)",        eposta:"limak@limak.com.tr",             calisanlar:3000, oncelik:"Yüksek", asama:"Email 1 Gönderildi",    son_temas:"2026-06-19", fu1:"", fu2:"", yanit:false, otomasyon:"Çok-divisyon yetenek havuzu yönetimi için AI eşleştirme + saha güvenlik raporu görsel analiz", gozlem:"GOP Ankara HQ; inşaat + enerji + turizm + çimento + teknoloji çok-divisyonlu", not_:"Verified kurumsal email; Nihat Çukurkaya Hürriyet röportajında İK Direktörü 2024", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:5,  sirket:"Nurol İnşaat",          sektor:"Mühendislik / Müşavirlik", karar_verici:"Nurettin Akdeniz",   rol:"CEO",                                eposta:"info@nurolinsaat.com.tr",        calisanlar:1000, oncelik:"Yüksek", asama:"Email 1 Gönderildi",    son_temas:"2026-06-19", fu1:"", fu2:"", yanit:false, otomasyon:"Çok-disiplinli proje belgelerini RAG tabanlı iç kütüphane + savunma teklif hazırlama AI iş akışları", gozlem:"Ankara HQ; inşaat + savunma (FNSS) + madencilik + bankacılık çok-segmentli", not_:"Verified kurumsal email; Nurettin Akdeniz CEO Nurol İnşaat", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:6,  sirket:"Lokman Hekim",          sektor:"Sağlık Zinciri",            karar_verici:"Büşra Bataklar",     rol:"İK Müdürü (Hastaneler)",             eposta:"yatirimdanisma@lokmanhekim.com.tr", calisanlar:800, oncelik:"Yüksek", asama:"Email 1 Gönderildi",      son_temas:"2026-06-22", fu1:"", fu2:"", yanit:false, otomasyon:"Hekim diktasyon transkripsiyonu + üniversite hastanesinde klinik vaka simülasyon AI", gozlem:"6 Türkiye hastanesi (Etlik, Akay, Sincan, Demet) + üniversite hastanesi; halka açık şirket", not_:"Yatırımcı iletişim kanalı; Büşra Bataklar İK Müdürü", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:7,  sirket:"Yüksel İnşaat",         sektor:"Mühendislik / Müşavirlik", karar_verici:"Tayfun Sezgin Kayaş",rol:"YK Başkanı",                         eposta:"info@yuksel.net",                calisanlar:800,  oncelik:"Orta",   asama:"Araştırılıyor",         son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Mühendis ekibine ihale dosyası analizi için AI; çevre/iş güvenliği denetim raporu otomatik üretimi", gozlem:"1963 Ankara kurulu; otoyol + tünel + baraj + havalimanı uluslararası ölçek", not_:"Verified kurumsal email; Emin Sazak founder (eski TMB Başkanı)", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:8,  sirket:"Nurol Sigorta",         sektor:"Sigorta",                   karar_verici:"",                   rol:"Kurumsal İletişim",                  eposta:"info@nurolsigorta.com.tr",       calisanlar:80,   oncelik:"Orta",   asama:"Araştırılıyor",         son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"FNSS savunma sektörü gibi kompleks projeler için sigorta risk modelleme + müşteri segmentasyon AI", gozlem:"Nurol Holding bünyesi; Ankara; grup içi + kurumsal sigorta brokerliği + danışmanlık", not_:"Verified kurumsal email; Nurol Holding iletişim sayfasında listelenmiş", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:9,  sirket:"Tepe İnşaat",           sektor:"Mühendislik / Müşavirlik", karar_verici:"Şafak Kolay",        rol:"CEO",                                eposta:"info@tepe.com.tr",               calisanlar:700,  oncelik:"Orta",   asama:"Araştırılıyor",         son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Tedarikçi sözleşme inceleme + KEY süreç otomasyonu", gozlem:"Bilkent Holding bağlı; Beytepe Bilkent kampüs; gayrimenkul + AVM + inşaat", not_:"Generic email tahmini; Şafak Kolay CEO + Levent Güler YK Başkanı", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:10, sirket:"Marsh Türkiye",         sektor:"Sigorta Brokerlik",         karar_verici:"",                   rol:"Kurumsal İletişim",                  eposta:"contactus.tr@marsh.com",         calisanlar:250,  oncelik:"Orta",   asama:"Araştırılıyor",         son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Risk modelleme AI + müşteri renewal toplantısı brief üretimi", gozlem:"Marsh global Türkiye kolu; Skyland İstanbul HQ; sigorta brokerliği + risk danışmanlığı", not_:"Generic email; iletişim formu fallback", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:11, sirket:"AON Türkiye",           sektor:"Sigorta Brokerlik",         karar_verici:"",                   rol:"Kurumsal Sigorta Ekibi",             eposta:"infoturkey@aon.com.tr",          calisanlar:300,  oncelik:"Orta",   asama:"Araştırılıyor",         son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Kurumsal sağlık poliçesi tasarımı için müşteri çalışan demografi analizi + claim trend AI", gozlem:"Global Aon ağı Türkiye kolu; İstanbul HQ; sağlık + risk + reasürans + emeklilik + affinity", not_:"Verified kurumsal email; Ankara operasyon İstanbul üzerinden", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:12, sirket:"Ankara Sigorta",        sektor:"Sigorta",                   karar_verici:"",                   rol:"Kurumsal İletişim",                  eposta:"bilgi@ankarasigorta.com.tr",     calisanlar:500,  oncelik:"Orta",   asama:"Araştırılıyor",         son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Hasar tespit görüntülerinden otomatik ön-hasar değerlendirme + müşteri yenileme tahminleme", gozlem:"1936'dan bu yana; Ankara HQ; kasko + trafik + konut + işyeri ana ürünler; ulusal acente ağı", not_:"Generic email; arabulucu@ankarasigorta.com.tr alternatif", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:13, sirket:"ANK Group Sigorta",     sektor:"Sigorta Brokerlik",         karar_verici:"Göktuğ Nalinci",     rol:"Şube Müdürü",                        eposta:"iletisim@ankbrokerlik.com",      calisanlar:100,  oncelik:"Orta",   asama:"Araştırılıyor",         son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Müşteri risk profili çıkarımı + poliçe yenileme öncesi piyasa karşılaştırma AI raporu", gozlem:"Güvenevler Çankaya Ankara; 2003 kurulu; bağımsız broker; kurumsal + kobi + bireysel teminat segmenti", not_:"Verified kurumsal email; 3 şube müdürü adlandırılmış sitede", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:14, sirket:"Liv Hospital Ankara",   sektor:"Sağlık Zinciri",            karar_verici:"",                   rol:"Kurumsal İletişim",                  eposta:"info@livhospital.com",           calisanlar:400,  oncelik:"Orta",   asama:"Araştırılıyor",         son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Hasta seyahat planlama (sağlık turizmi) için çok-dilli AI asistan + cerrahi onam dokümantasyon üretici", gozlem:"Bestekar Cad. Çankaya'da MLPCARE markası altında; 6 şubeli Liv ağı; 2013 kurulan butik premium konum", not_:"Generic info@ probable; iletişim formu mevcut", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-  { id:15, sirket:"Medical Park Ankara",   sektor:"Sağlık Zinciri",            karar_verici:"",                   rol:"İK Koordinasyon",                    eposta:"kariyer@mlpcare.com",            calisanlar:2500, oncelik:"Orta",   asama:"Araştırılıyor",         son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Onboarding sürecini AI mentor chatbot ile hızlandırma + işe alım için CV ön-elemesi", gozlem:"Türkiye'nin en büyük özel hastane zincirlerinden; Ankara Batıkent + Keçiören şubeleri; 25 şube", not_:"Generic kariyer email tahmini; mlpcare LinkedIn aktif", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
-];
-
+// ─── Constants ────────────────────────────────────────────────────
 const STAGES = [
   "Araştırılıyor",
   "Email 1 Gönderildi",
@@ -598,8 +714,45 @@ const SECTOR_COLORS = {
   "Sigorta":                   ["#FEF9C3", "#A16207"],
 };
 
-// ─── Web App URL ─────────────────────────────────────────────────
+// LinkedIn states — value stored in data, display mapped here
+const LINKEDIN_STATES = [
+  { value: "Gönderilmedi",                   short: "—",          cls: "li-none",     btnCls: "is-none",     label: "Yok",                         icon: "·" },
+  { value: "Bağlantı İsteği Gönderildi",     short: "İstek",      cls: "li-request",  btnCls: "is-request",  label: "Bağlantı İsteği Gönderildi",  icon: "🔗" },
+  { value: "Kabul Edildi",                   short: "Bağlı",      cls: "li-accepted", btnCls: "is-accepted", label: "Kabul Edildi",                 icon: "✓" },
+  { value: "Yorum Gönderildi",               short: "Yorum",      cls: "li-comment",  btnCls: "is-comment",  label: "Yorum Gönderildi",            icon: "💬" },
+  { value: "Mesaj Gönderildi",               short: "Mesaj",      cls: "li-messaged", btnCls: "is-messaged", label: "Mesaj Gönderildi",            icon: "✉" },
+  // backward compat aliases
+  { value: "Gönderildi",                     short: "İstek",      cls: "li-request",  btnCls: "is-request",  label: "Bağlantı İsteği Gönderildi",  icon: "🔗" },
+  { value: "Mesajlandı",                     short: "Mesaj",      cls: "li-messaged", btnCls: "is-messaged", label: "Mesaj Gönderildi",            icon: "✉" },
+];
+
+const SCHEDULES = [
+  { time: "09:09", key: "sabah-checkin",  label: "sabah-checkin",  desc: "Sheet tara · today.json yaz" },
+  { time: "09:23", key: "pdf-uretici",   label: "pdf-uretici",   desc: "D1 PDF üret" },
+  { time: "09:57", key: "email-sender",  label: "email-sender",  desc: "Gmail'den gönder · Sheet güncelle" },
+  { time: "22:00", key: "notion-sync",   label: "notion-sync",   desc: "Gece raporu · Kaçan follow-up kontrolü" },
+];
+
 const WEBAPI_URL = "https://script.google.com/macros/s/AKfycbxVSyEB63hVPDxZzebsS_rshZYQeBNxl1F16PRCUJYVmCqrcfUXz7nZGLvUSafwFoj4UA/exec";
+
+// ─── Data ──────────────────────────────────────────────────────────
+const PROSPECTS = [
+  { id:1,  sirket:"GAMA Holding",          sektor:"Mühendislik / Müşavirlik", karar_verici:"Ebru Ural Ozkan",    rol:"İK ve Kurumsal Gelişim Grup Müdürü", eposta:"holding@gama.com.tr",           calisanlar:1500, oncelik:"Yüksek", asama:"Follow-up 1 Gönderildi",    son_temas:"2026-06-22", fu1:"2026-06-22", fu2:"", yanit:false, otomasyon:"EPC teklif hazırlama otomasyonu + saha mühendisi günlük raporlarını yönetim özetine dönüştürme", gozlem:"GOP Ankara HQ; inşaat + enerji + turizm + çimento + teknoloji çok-divisyonlu", not_:"Verified kurumsal email; Ebru Ural Ozkan basın bültenlerinde adlandırılmış", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:2,  sirket:"Memorial Sağlık Grubu", sektor:"Sağlık Zinciri",            karar_verici:"Özlem Çakar",        rol:"İK Direktörü (Kurumsal)",            eposta:"kariyer@memorial.com.tr",        calisanlar:2000, oncelik:"Yüksek", asama:"Follow-up 1 Gönderildi",    son_temas:"2026-06-22", fu1:"2026-06-22", fu2:"", yanit:false, otomasyon:"Hekim klinik notlarını ICD-10 kodlamasına AI ile çevirme + hasta deneyim anketlerini canlı bültene dönüştürme", gozlem:"JCI akrediteli Türkiye'nin en büyük özel sağlık gruplarından; Memorial Ankara şubesi Çankaya'da", not_:"Generic kariyer kanalı; Özlem Çakar İK Direktörü Memorial Healthcare LinkedIn", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:3,  sirket:"Güven Hastanesi",       sektor:"Sağlık Zinciri",            karar_verici:"Banu Küçükel",       rol:"YK Başkanı",                         eposta:"guven@guven.com.tr",             calisanlar:600,  oncelik:"Yüksek", asama:"Follow-up 1 Gönderildi",    son_temas:"2026-06-22", fu1:"", fu2:"", yanit:false, otomasyon:"Çağrı merkezi ses analizinden hasta deneyim raporu + radyoloji ön-rapor AI yardımcısı", gozlem:"Kavaklıdere ve Çayyolu kampüsleri; 1976'dan beri Ankara", not_:"Verified kurumsal email; Banu Küçükel Facebook duyurularında", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:4,  sirket:"Limak Holding",         sektor:"Mühendislik / Müşavirlik", karar_verici:"Nihat Çukurkaya",    rol:"İK Direktörü (Limak İnşaat)",        eposta:"limak@limak.com.tr",             calisanlar:3000, oncelik:"Yüksek", asama:"Follow-up 1 Gönderildi",    son_temas:"2026-06-22", fu1:"", fu2:"", yanit:false, otomasyon:"Çok-divisyon yetenek havuzu yönetimi için AI eşleştirme + saha güvenlik raporu görsel analiz", gozlem:"GOP Ankara HQ; inşaat + enerji + turizm + çimento + teknoloji çok-divisyonlu", not_:"Verified kurumsal email; Nihat Çukurkaya Hürriyet röportajında İK Direktörü 2024", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:5,  sirket:"Nurol İnşaat",          sektor:"Mühendislik / Müşavirlik", karar_verici:"Nurettin Akdeniz",   rol:"CEO",                                eposta:"info@nurolinsaat.com.tr",        calisanlar:1000, oncelik:"Yüksek", asama:"Follow-up 1 Gönderildi",    son_temas:"2026-06-22", fu1:"", fu2:"", yanit:false, otomasyon:"Çok-disiplinli proje belgelerini RAG tabanlı iç kütüphane + savunma teklif hazırlama AI iş akışları", gozlem:"Ankara HQ; inşaat + savunma (FNSS) + madencilik + bankacılık çok-segmentli", not_:"Verified kurumsal email; Nurettin Akdeniz CEO Nurol İnşaat", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:6,  sirket:"Lokman Hekim",          sektor:"Sağlık Zinciri",            karar_verici:"Büşra Bataklar",     rol:"İK Müdürü (Hastaneler)",             eposta:"yatirimdanisma@lokmanhekim.com.tr", calisanlar:800, oncelik:"Orta",   asama:"Email 1 Gönderildi",      son_temas:"2026-06-22", fu1:"", fu2:"", yanit:false, otomasyon:"Hekim diktasyon transkripsiyonu + üniversite hastanesinde klinik vaka simülasyon AI", gozlem:"6 Türkiye hastanesi (Etlik, Akay, Sincan, Demet) + üniversite hastanesi; halka açık şirket", not_:"Yatırımcı iletişim kanalı; Büşra Bataklar İK Müdürü", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:7,  sirket:"Yüksel İnşaat",         sektor:"Mühendislik / Müşavirlik", karar_verici:"Tayfun Sezgin Kayaş",rol:"YK Başkanı",                         eposta:"info@yuksel.net",                calisanlar:800,  oncelik:"Orta",   asama:"Email 1 Gönderildi",      son_temas:"2026-06-24", fu1:"", fu2:"", yanit:false, otomasyon:"Mühendis ekibine ihale dosyası analizi için AI; çevre/iş güvenliği denetim raporu otomatik üretimi", gozlem:"1963 Ankara kurulu; otoyol + tünel + baraj + havalimanı uluslararası ölçek", not_:"Verified kurumsal email; Emin Sazak founder (eski TMB Başkanı)", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:8,  sirket:"Nurol Sigorta",         sektor:"Sigorta",                   karar_verici:"",                   rol:"Kurumsal İletişim",                  eposta:"info@nurolsigorta.com.tr",       calisanlar:80,   oncelik:"Orta",   asama:"Email 1 Gönderildi",      son_temas:"2026-06-24", fu1:"", fu2:"", yanit:false, otomasyon:"FNSS savunma sektörü gibi kompleks projeler için sigorta risk modelleme + müşteri segmentasyon AI", gozlem:"Nurol Holding bünyesi; Ankara; grup içi + kurumsal sigorta brokerliği + danışmanlık", not_:"Verified kurumsal email; Nurol Holding iletişim sayfasında listelenmiş", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:9,  sirket:"Tepe İnşaat",           sektor:"Mühendislik / Müşavirlik", karar_verici:"Şafak Kolay",        rol:"CEO",                                eposta:"info@tepe.com.tr",               calisanlar:700,  oncelik:"Orta",   asama:"Email 1 Gönderildi",      son_temas:"2026-06-24", fu1:"", fu2:"", yanit:false, otomasyon:"Tedarikçi sözleşme inceleme + KEY süreç otomasyonu", gozlem:"Bilkent Holding bağlı; Beytepe Bilkent kampüs; gayrimenkul + AVM + inşaat", not_:"Generic email tahmini; Şafak Kolay CEO + Levent Güler YK Başkanı", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:10, sirket:"Marsh Türkiye",         sektor:"Sigorta Brokerlik",         karar_verici:"",                   rol:"Kurumsal İletişim",                  eposta:"contactus.tr@marsh.com",         calisanlar:250,  oncelik:"Orta",   asama:"Email 1 Gönderildi",      son_temas:"2026-06-25", fu1:"", fu2:"", yanit:false, otomasyon:"Risk modelleme AI + müşteri renewal toplantısı brief üretimi", gozlem:"Marsh global Türkiye kolu; Skyland İstanbul HQ; sigorta brokerliği + risk danışmanlığı", not_:"Generic email; iletişim formu fallback", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:11, sirket:"AON Türkiye",           sektor:"Sigorta Brokerlik",         karar_verici:"",                   rol:"Kurumsal Sigorta Ekibi",             eposta:"infoturkey@aon.com.tr",          calisanlar:300,  oncelik:"Orta",   asama:"Email 1 Gönderildi",      son_temas:"2026-06-25", fu1:"", fu2:"", yanit:false, otomasyon:"Kurumsal sağlık poliçesi tasarımı için müşteri çalışan demografi analizi + claim trend AI", gozlem:"Global Aon ağı Türkiye kolu; İstanbul HQ; sağlık + risk + reasürans + emeklilik + affinity", not_:"Verified kurumsal email; Ankara operasyon İstanbul üzerinden", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:12, sirket:"Ankara Sigorta",        sektor:"Sigorta",                   karar_verici:"",                   rol:"Kurumsal İletişim",                  eposta:"bilgi@ankarasigorta.com.tr",     calisanlar:500,  oncelik:"Orta",   asama:"Araştırılıyor",           son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Hasar tespit görüntülerinden otomatik ön-hasar değerlendirme + müşteri yenileme tahminleme", gozlem:"1936'dan bu yana; Ankara HQ; kasko + trafik + konut + işyeri ana ürünler; ulusal acente ağı", not_:"Generic email; arabulucu@ankarasigorta.com.tr alternatif", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:13, sirket:"ANK Group Sigorta",     sektor:"Sigorta Brokerlik",         karar_verici:"Göktuğ Nalinci",     rol:"Şube Müdürü",                        eposta:"iletisim@ankbrokerlik.com",      calisanlar:100,  oncelik:"Orta",   asama:"Araştırılıyor",           son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Müşteri risk profili çıkarımı + poliçe yenileme öncesi piyasa karşılaştırma AI raporu", gozlem:"Güvenevler Çankaya Ankara; 2003 kurulu; bağımsız broker; kurumsal + kobi + bireysel teminat segmenti", not_:"Verified kurumsal email; 3 şube müdürü adlandırılmış sitede", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:14, sirket:"Liv Hospital Ankara",   sektor:"Sağlık Zinciri",            karar_verici:"",                   rol:"Kurumsal İletişim",                  eposta:"info@livhospital.com",           calisanlar:400,  oncelik:"Orta",   asama:"Araştırılıyor",           son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Hasta seyahat planlama (sağlık turizmi) için çok-dilli AI asistan + cerrahi onam dokümantasyon üretici", gozlem:"Bestekar Cad. Çankaya'da MLPCARE markası altında; 6 şubeli Liv ağı; 2013 kurulan butik premium konum", not_:"Generic info@ probable; iletişim formu mevcut", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+  { id:15, sirket:"Medical Park Ankara",   sektor:"Sağlık Zinciri",            karar_verici:"",                   rol:"İK Koordinasyon",                    eposta:"kariyer@mlpcare.com",            calisanlar:2500, oncelik:"Orta",   asama:"Araştırılıyor",           son_temas:"", fu1:"", fu2:"", yanit:false, otomasyon:"Onboarding sürecini AI mentor chatbot ile hızlandırma + işe alım için CV ön-elemesi", gozlem:"Türkiye'nin en büyük özel hastane zincirlerinden; Ankara Batıkent + Keçiören şubeleri; 25 şube", not_:"Generic kariyer email tahmini; mlpcare LinkedIn aktif", linkedin_url:"", linkedin_baglanti:"Gönderilmedi", linkedin_not:"" },
+];
 
 // ─── State ────────────────────────────────────────────────────────
 let data = JSON.parse(JSON.stringify(PROSPECTS));
@@ -607,7 +760,7 @@ let filtered = [...data];
 let sortKey = null, sortDir = 1;
 let currentView = 'table';
 let selectedId = null;
-let syncStatus = 'local'; // 'local' | 'syncing' | 'synced' | 'error'
+let syncStatus = 'local';
 
 // ─── Helpers ──────────────────────────────────────────────────────
 function initials(name) {
@@ -634,6 +787,14 @@ function formatDate(d) {
   const dt = new Date(d + 'T00:00:00');
   return dt.toLocaleDateString('tr-TR', { day:'numeric', month:'short', year:'numeric' });
 }
+function relativeDate(d) {
+  if (!d) return '—';
+  const days = daysSince(d);
+  if (days === 0) return 'Bugün';
+  if (days === 1) return 'Dün';
+  if (days < 7)  return `${days}g önce`;
+  return formatDate(d);
+}
 function daysSince(d) {
   if (!d) return null;
   return Math.floor((Date.now() - new Date(d + 'T00:00:00')) / 86400000);
@@ -641,11 +802,18 @@ function daysSince(d) {
 function dateCls(d, asama) {
   if (!d) return 'empty';
   const days = daysSince(d);
-  if (asama === "Email 1 Gönderildi" && days > 6) return 'overdue';
-  if (asama === "Follow-up 1 Gönderildi" && days > 7) return 'overdue';
+  if (asama === "Email 1 Gönderildi" && days >= 4) return 'overdue';
+  if (asama === "Follow-up 1 Gönderildi" && days >= 5) return 'overdue';
   if (days > 14) return 'overdue';
   if (days > 4) return 'soon';
   return '';
+}
+function isOverdue(p) {
+  if (!p.son_temas) return false;
+  const days = daysSince(p.son_temas);
+  if (p.asama === "Email 1 Gönderildi" && days >= 4) return true;
+  if (p.asama === "Follow-up 1 Gönderildi" && days >= 5) return true;
+  return false;
 }
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -654,18 +822,97 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2400);
 }
 
+// ─── LinkedIn helpers ─────────────────────────────────────────────
+function getLiState(value) {
+  return LINKEDIN_STATES.find(s => s.value === value) || LINKEDIN_STATES[0];
+}
+function linkedinBadge(p) {
+  const s = getLiState(p.linkedin_baglanti);
+  if (s.value === "Gönderilmedi") {
+    return `<span class="li-badge li-none" onclick="event.stopPropagation();cycleLi(${p.id})" title="Tıkla: durum güncelle"><span class="li-dot"></span>—</span>`;
+  }
+  return `<span class="li-badge ${s.cls}" onclick="event.stopPropagation();cycleLi(${p.id})" title="${s.label} — tıkla: güncelle"><span class="li-dot"></span>${s.icon} ${s.short}</span>`;
+}
+function cycleLi(id) {
+  const p = data.find(x => x.id === id);
+  // cycle through primary states only (not aliases)
+  const primary = LINKEDIN_STATES.slice(0, 5);
+  const cur = primary.findIndex(s => s.value === p.linkedin_baglanti);
+  const next = primary[(cur + 1) % primary.length];
+  updateLinkedinField(id, 'linkedin_baglanti', next.value);
+}
+
+// ─── Schedule helpers ─────────────────────────────────────────────
+function getSlotStatus(timeStr) {
+  const [h, m] = timeStr.split(':').map(Number);
+  const now = new Date();
+  const slotMin = h * 60 + m;
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  if (nowMin > slotMin + 8) return 'ran';
+  if (Math.abs(nowMin - slotMin) <= 8) return 'running';
+  // find if this is the next upcoming slot
+  return 'pending';
+}
+
+// ─── Dashboard Strip ──────────────────────────────────────────────
+function renderDashStrip() {
+  // Pipeline funnel
+  const counts = {};
+  STAGES.forEach(s => counts[s] = 0);
+  data.forEach(p => { counts[p.asama] = (counts[p.asama] || 0) + 1; });
+
+  const activeFilter = document.getElementById('filterStage').value;
+  const funnelItems = STAGES.filter(s => s !== 'Arşiv').map((s, i) => {
+    const dotColor = STAGE_COLORS[s] || '#999';
+    const isActive = activeFilter === s;
+    const short = { "Araştırılıyor":"Araştır.", "Email 1 Gönderildi":"Email 1", "Follow-up 1 Gönderildi":"FU-1", "Follow-up 2 Gönderildi":"FU-2", "Pozitif":"Pozitif" }[s] || s;
+    return `<div class="funnel-item${isActive?' active':''}" onclick="setFunnelFilter('${s}')" title="${s}">
+      <div class="funnel-dot" style="background:${dotColor}"></div>
+      <span class="funnel-count">${counts[s]}</span>
+      <span class="funnel-label">${short}</span>
+    </div>${i < STAGES.filter(s=>s!=='Arşiv').length - 1 ? '<span class="funnel-arrow">›</span>' : ''}`;
+  }).join('');
+  document.getElementById('dashFunnel').innerHTML = funnelItems;
+
+  // Schedule
+  let nextFound = false;
+  const slots = SCHEDULES.map(s => {
+    let status = getSlotStatus(s.time);
+    if (status === 'pending' && !nextFound) {
+      status = 'next';
+      nextFound = true;
+    }
+    const statusIcon = status === 'ran' ? '✓' : status === 'running' ? '●' : status === 'next' ? '→' : '·';
+    return `<div class="schedule-slot ${status}" title="${s.desc}">
+      <span class="slot-icon">${statusIcon}</span>
+      <span class="slot-time">${s.time}</span>
+      <span class="slot-label">${s.label}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('dashSchedule').innerHTML = slots;
+}
+
+function setFunnelFilter(stage) {
+  const sel = document.getElementById('filterStage');
+  sel.value = sel.value === stage ? '' : stage;
+  filterData();
+  renderDashStrip();
+}
+
 // ─── Stats ────────────────────────────────────────────────────────
 function renderStats() {
   const counts = {};
   STAGES.forEach(s => counts[s] = 0);
   data.forEach(p => { counts[p.asama] = (counts[p.asama] || 0) + 1; });
-  const active = data.filter(p => p.asama !== 'Arşiv').length;
+  const active  = data.filter(p => p.asama !== 'Arşiv').length;
   const emailed = data.filter(p => ["Email 1 Gönderildi","Follow-up 1 Gönderildi","Follow-up 2 Gönderildi"].includes(p.asama)).length;
   const positive = counts["Pozitif"] || 0;
+  const overdueCount = data.filter(isOverdue).length;
   document.getElementById('topStats').innerHTML = `
     <div class="stat-chip"><strong>${active}</strong> aktif</div>
     <div class="stat-chip"><strong>${emailed}</strong> email gönderildi</div>
-    <div class="stat-chip" style="color:var(--stage-positive)"><strong>${positive}</strong> pozitif</div>
+    ${positive > 0 ? `<div class="stat-chip" style="color:var(--stage-positive)"><strong>${positive}</strong> pozitif</div>` : ''}
+    ${overdueCount > 0 ? `<div class="stat-chip" style="color:var(--prio-high)"><strong>${overdueCount}</strong> gecikmiş</div>` : ''}
   `;
 }
 
@@ -677,10 +924,12 @@ function filterData() {
   const prio = document.getElementById('filterPrio').value;
 
   filtered = data.filter(p => {
-    const matchQ = !q || p.sirket.toLowerCase().includes(q) || p.karar_verici.toLowerCase().includes(q) || p.eposta.toLowerCase().includes(q);
-    const matchStage = !stage || p.asama === stage;
+    const matchQ = !q || p.sirket.toLowerCase().includes(q)
+      || p.karar_verici.toLowerCase().includes(q)
+      || p.eposta.toLowerCase().includes(q);
+    const matchStage  = !stage  || p.asama === stage;
     const matchSector = !sector || p.sektor === sector;
-    const matchPrio = !prio || p.oncelik === prio;
+    const matchPrio   = !prio   || p.oncelik === prio;
     return matchQ && matchStage && matchSector && matchPrio;
   });
 
@@ -688,26 +937,27 @@ function filterData() {
   renderTable();
   renderCards();
   renderKanban();
+  renderDashStrip();
   document.getElementById('countBadge').textContent = `${filtered.length} kayıt`;
 }
 
 function sortBy(key) {
   if (sortKey === key) sortDir *= -1; else { sortKey = key; sortDir = 1; }
   document.querySelectorAll('th').forEach(th => th.classList.remove('sorted'));
-  const headers = ['sirket','karar_verici','asama','oncelik','son_temas','calisanlar'];
+  const headers = ['sirket','karar_verici','asama','','oncelik','son_temas','calisanlar'];
   const idx = headers.indexOf(key);
   if (idx >= 0) document.querySelectorAll('th')[idx].classList.add('sorted');
   applySort(); renderTable();
 }
 
 function applySort() {
-  const prioOrder = { Yüksek:0, Orta:1, Düşük:2 };
+  const prioOrder  = { Yüksek:0, Orta:1, Düşük:2 };
   const stageOrder = {};
   STAGES.forEach((s,i) => stageOrder[s] = i);
   filtered.sort((a,b) => {
     let av = a[sortKey], bv = b[sortKey];
     if (sortKey === 'oncelik') { av = prioOrder[av]; bv = prioOrder[bv]; }
-    if (sortKey === 'asama') { av = stageOrder[av]; bv = stageOrder[bv]; }
+    if (sortKey === 'asama')   { av = stageOrder[av]; bv = stageOrder[bv]; }
     if (av == null || av === '') return 1;
     if (bv == null || bv === '') return -1;
     return (av < bv ? -1 : av > bv ? 1 : 0) * sortDir;
@@ -718,16 +968,14 @@ function applySort() {
 function renderTable() {
   const tbody = document.getElementById('tableBody');
   const empty = document.getElementById('tableEmpty');
-  if (!filtered.length) {
-    tbody.innerHTML = '';
-    empty.style.display = 'flex';
-    return;
-  }
+  if (!filtered.length) { tbody.innerHTML = ''; empty.style.display = 'flex'; return; }
   empty.style.display = 'none';
   tbody.innerHTML = filtered.map(p => {
     const [bgC, textC] = avatarColors(p.sektor);
-    const dc = dateCls(p.son_temas, p.asama);
-    const dateLabel = p.son_temas ? formatDate(p.son_temas) : '—';
+    const dc   = dateCls(p.son_temas, p.asama);
+    const over = isOverdue(p);
+    const stageBadgeExtra = over ? ' overdue' : '';
+    const dateLabel = relativeDate(p.son_temas);
     return `<tr onclick="openDetail(${p.id})" class="${selectedId===p.id?'selected':''}">
       <td>
         <div class="company-cell">
@@ -739,17 +987,18 @@ function renderTable() {
         </div>
       </td>
       <td class="hide-sm">
-        <div class="contact-name">${p.karar_verici || '<span style="color:var(--ink-3)">—</span>'}</div>
+        <div class="contact-name">${p.karar_verici || '<span style="color:var(--ink-4)">—</span>'}</div>
         <div class="contact-role">${p.rol}</div>
       </td>
-      <td><span class="stage-badge ${stageCls(p.asama)}">${p.asama}</span></td>
-      <td><span class="prio-badge ${prioCls(p.oncelik)}">${p.oncelik}</span></td>
+      <td><span class="stage-badge ${stageCls(p.asama)}${stageBadgeExtra}">${p.asama}</span></td>
+      <td>${linkedinBadge(p)}</td>
+      <td class="hide-sm"><span class="prio-badge ${prioCls(p.oncelik)}">${p.oncelik}</span></td>
       <td class="hide-sm"><span class="date-cell ${dc}">${dateLabel}</span></td>
-      <td class="hide-sm employees">${p.calisanlar.toLocaleString('tr-TR')}</td>
+      <td class="hide-md employees">${p.calisanlar.toLocaleString('tr-TR')}</td>
       <td class="hide-sm">
         <div class="row-actions">
-          <button class="row-act-btn" onclick="event.stopPropagation();quickStage(${p.id})">Aşama ↑</button>
-          <button class="row-act-btn" onclick="event.stopPropagation();copyEmail(${p.id})">✉</button>
+          <button class="row-act-btn" onclick="event.stopPropagation();quickStage(${p.id})">↑ Aşama</button>
+          <button class="row-act-btn" onclick="event.stopPropagation();copyEmail(${p.id})">✉ Kopyala</button>
         </div>
       </td>
     </tr>`;
@@ -767,7 +1016,7 @@ function renderCards() {
   list.innerHTML = filtered.map(p => {
     const [bgC, textC] = avatarColors(p.sektor);
     const dc = dateCls(p.son_temas, p.asama);
-    const dateLabel = p.son_temas ? formatDate(p.son_temas) : '—';
+    const s = getLiState(p.linkedin_baglanti);
     return `<div class="prospect-card" onclick="openDetail(${p.id})">
       <div class="card-top">
         <div class="company-avatar" style="background:${bgC};color:${textC};width:34px;height:34px;font-size:11px;flex-shrink:0">${initials(p.sirket)}</div>
@@ -777,11 +1026,14 @@ function renderCards() {
         </div>
         <span class="prio-badge ${prioCls(p.oncelik)}" style="flex-shrink:0">${p.oncelik}</span>
       </div>
-      <div class="card-row">
+      <div class="card-row" style="margin-bottom:6px">
         <span class="stage-badge ${stageCls(p.asama)}">${p.asama}</span>
-        <span class="date-cell ${dc}" style="font-size:11px">${dateLabel}</span>
+        <span class="date-cell ${dc}" style="font-size:11px">${relativeDate(p.son_temas)}</span>
       </div>
-      ${p.karar_verici ? `<div class="card-contact">${p.karar_verici} · ${p.rol}</div>` : ''}
+      <div style="display:flex;align-items:center;gap:8px">
+        ${p.karar_verici ? `<span class="card-contact" style="margin-top:0;flex:1">${p.karar_verici} · ${p.rol}</span>` : `<span style="flex:1"></span>`}
+        ${s.value !== 'Gönderilmedi' ? `<span class="li-badge ${s.cls}" style="font-size:10px;padding:2px 6px"><span class="li-dot"></span>${s.icon} ${s.short}</span>` : ''}
+      </div>
     </div>`;
   }).join('');
 }
@@ -800,6 +1052,7 @@ function renderKanban() {
       <div class="kanban-cards">
         ${cards.length ? cards.map(p => {
           const [bgC, textC] = avatarColors(p.sektor);
+          const s = getLiState(p.linkedin_baglanti);
           return `<div class="kanban-card" onclick="openDetail(${p.id})">
             <div class="kanban-card-top">
               <div style="display:flex;align-items:center;gap:8px">
@@ -810,8 +1063,9 @@ function renderKanban() {
             </div>
             <div class="kanban-card-contact">${p.karar_verici || p.rol}</div>
             <div class="kanban-card-meta">
-              <span style="font-size:11px;color:var(--ink-3)">${p.sektor}</span>
-              ${p.son_temas ? `<span class="date-cell ${dateCls(p.son_temas,p.asama)}" style="font-size:11px">${formatDate(p.son_temas)}</span>` : ''}
+              <span style="font-size:11px;color:var(--ink-4)">${p.sektor}</span>
+              ${s.value !== 'Gönderilmedi' ? `<span class="li-badge ${s.cls}" style="font-size:10px;padding:2px 6px;margin-left:auto"><span class="li-dot"></span>${s.icon} ${s.short}</span>` : ''}
+              ${p.son_temas ? `<span class="date-cell ${dateCls(p.son_temas,p.asama)}" style="font-size:11px">${relativeDate(p.son_temas)}</span>` : ''}
             </div>
           </div>`;
         }).join('') : `<div class="kanban-empty">Kayıt yok</div>`}
@@ -842,6 +1096,16 @@ function openDetail(id) {
   document.getElementById('detailSector').textContent = p.sektor;
 
   const nextAction = getNextAction(p);
+  const curLi = getLiState(p.linkedin_baglanti);
+
+  // LinkedIn activity buttons (primary states only)
+  const primaryLi = LINKEDIN_STATES.slice(0, 5);
+  const liBtns = primaryLi.map(s =>
+    `<button class="li-activity-btn ${s.btnCls}${p.linkedin_baglanti === s.value ? ' selected' : ''}"
+      onclick="updateLinkedinField(${p.id}, 'linkedin_baglanti', '${s.value}')">
+      <span class="li-btn-dot"></span>${s.icon} ${s.label}
+    </button>`
+  ).join('');
 
   document.getElementById('detailBody').innerHTML = `
     <div class="detail-section">
@@ -851,12 +1115,14 @@ function openDetail(id) {
       </select>
     </div>
 
-    <div class="detail-section" style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px">
-      <div class="detail-section-title" style="margin-bottom:6px">Sıradaki Aksiyon</div>
-      <div style="font-size:13px;font-weight:500;color:${nextAction.urgent ? 'var(--prio-high)' : 'var(--accent)'}">
-        ${nextAction.text}
+    <div class="detail-section">
+      <div class="detail-section-title">Sıradaki Aksiyon</div>
+      <div class="next-action-box">
+        <div class="next-action-text" style="color:${nextAction.urgent ? 'var(--prio-high)' : 'var(--accent)'}">
+          ${nextAction.text}
+        </div>
+        ${nextAction.sub ? `<div class="next-action-sub">${nextAction.sub}</div>` : ''}
       </div>
-      ${nextAction.sub ? `<div style="font-size:11px;color:var(--ink-3);margin-top:3px">${nextAction.sub}</div>` : ''}
     </div>
 
     <div class="detail-section">
@@ -872,9 +1138,23 @@ function openDetail(id) {
         </div>
         <div class="detail-field full">
           <label>E-posta</label>
-          <span><a href="mailto:${p.eposta}" style="color:var(--accent);text-decoration:none">${p.eposta}</a></span>
+          <span><a href="mailto:${p.eposta}" style="color:var(--accent);text-decoration:none;word-break:break-all">${p.eposta}</a></span>
         </div>
       </div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title">LinkedIn Aktivitesi</div>
+      <div class="li-activity-grid">${liBtns}</div>
+      ${p.linkedin_url
+        ? `<a href="${p.linkedin_url}" target="_blank" rel="noopener" class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:10px;color:var(--li-blue);border-color:var(--li-blue)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn Profilini Aç
+          </a>`
+        : `<div style="font-size:11px;color:var(--ink-4);margin-top:8px">LinkedIn URL eklenmemiş</div>`
+      }
+      <textarea class="li-note-input" placeholder="Not ekle (ör: yorum içeriği, mesaj tarihi…)"
+        onblur="saveLinkedinNote(${p.id}, this.value)">${p.linkedin_not || ''}</textarea>
     </div>
 
     <div class="detail-section">
@@ -885,7 +1165,7 @@ function openDetail(id) {
           <span class="prio-badge ${prioCls(p.oncelik)}">${p.oncelik}</span>
         </div>
         <div class="detail-field">
-          <label>Çalışan Sayısı</label>
+          <label>Çalışan</label>
           <span>${p.calisanlar.toLocaleString('tr-TR')}</span>
         </div>
         <div class="detail-field">
@@ -902,12 +1182,12 @@ function openDetail(id) {
         </div>
         <div class="detail-field">
           <label>Yanıt</label>
-          <span>${p.yanit || '—'}</span>
+          <span>${p.yanit ? 'Evet' : '—'}</span>
         </div>
       </div>
       <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:10px" onclick="markContactedToday(${p.id})">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11l3-3m0 0l5-5M4 8l1-1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="9.5" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
-        Bugün temas ettim — Son Temasa işaretle
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 8v4l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Son Temas → Bugün işaretle
       </button>
     </div>
 
@@ -923,31 +1203,13 @@ function openDetail(id) {
       <div class="detail-section-title">Not</div>
       <div class="detail-note">${p.not_}</div>
     </div>
-    <div class="detail-section">
-      <div class="detail-section-title">LinkedIn</div>
-      <div class="detail-grid">
-        <div class="detail-field full">
-          <label>Bağlantı Durumu</label>
-          <select class="stage-select" onchange="updateLinkedinField(${p.id}, 'linkedin_baglanti', this.value)">
-            ${['Gönderilmedi','Gönderildi','Kabul Edildi','Mesajlandı'].map(s => `<option ${p.linkedin_baglanti===s?'selected':''}>${s}</option>`).join('')}
-          </select>
-        </div>
-        <div class="detail-field full">
-          <label>Not</label>
-          <span>${p.linkedin_not || '—'}</span>
-        </div>
-      </div>
-      ${p.linkedin_url
-        ? `<a href="${p.linkedin_url}" target="_blank" rel="noopener" class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:10px;color:#0A66C2;border-color:#0A66C2">🔗 LinkedIn Profilini Aç</a>`
-        : `<div style="font-size:11px;color:var(--ink-3);margin-top:6px">LinkedIn URL girilmemiş</div>`
-      }
-    </div>
-    <div class="detail-section" style="display:flex;gap:8px">
+
+    <div class="detail-section" style="display:flex;gap:8px;padding-bottom:4px">
       <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="copyEmail(${p.id})">
-        ✉ E-postayı Kopyala
+        ✉ E-posta Kopyala
       </button>
       <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="quickStage(${p.id})">
-        Aşama ↑
+        ↑ Aşama İlerlet
       </button>
     </div>
   `;
@@ -961,34 +1223,28 @@ function closeDetailPanel() {
   selectedId = null;
   renderTable();
 }
-
 function closeDetail(e) {
   if (e.target === document.getElementById('detailOverlay')) closeDetailPanel();
 }
 
 // ─── Sync to Google Sheet ──────────────────────────────────────────
 async function syncToSheet(payload) {
-  if (!WEBAPI_URL) return; // URL girilmemişse local-only
+  if (!WEBAPI_URL) return;
   setSyncIndicator('syncing');
   try {
-    const res = await fetch(WEBAPI_URL, {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    });
+    const res = await fetch(WEBAPI_URL, { method: 'POST', body: JSON.stringify(payload) });
     const json = await res.json();
-    if (json.ok) setSyncIndicator('synced');
-    else setSyncIndicator('error');
-  } catch (e) {
+    setSyncIndicator(json.ok ? 'synced' : 'error');
+  } catch {
     setSyncIndicator('error');
   }
 }
-
 function setSyncIndicator(state) {
   syncStatus = state;
   const el = document.getElementById('syncIndicator');
   if (!el) return;
   const map = {
-    local:   { text: 'Lokal',       color: 'var(--ink-3)' },
+    local:   { text: '',             color: 'var(--ink-4)' },
     syncing: { text: 'Kaydediliyor…', color: 'var(--prio-mid)' },
     synced:  { text: '✓ Kaydedildi', color: 'var(--stage-positive)' },
     error:   { text: '⚠ Hata',       color: 'var(--prio-high)' },
@@ -1006,133 +1262,123 @@ function updateStage(id, newStage) {
   if (["Email 1 Gönderildi","Follow-up 1 Gönderildi","Follow-up 2 Gönderildi"].includes(newStage)) {
     p.son_temas = today;
   }
-  filterData();
-  renderStats();
+  filterData(); renderStats();
   showToast(`${p.sirket} → ${newStage}`);
   syncToSheet({ action: "updateStage", id, asama: newStage, son_temas: p.son_temas });
-  // Re-render detail if open
   if (selectedId === id) openDetail(id);
 }
-
 function quickStage(id) {
   const p = data.find(x => x.id === id);
   const idx = STAGES.indexOf(p.asama);
   if (idx < STAGES.length - 1) updateStage(id, STAGES[idx+1]);
 }
-
 function copyEmail(id) {
   const p = data.find(x => x.id === id);
-  navigator.clipboard.writeText(p.eposta).then(() => showToast(`${p.eposta} kopyalandı`));
+  navigator.clipboard.writeText(p.eposta).then(() => showToast(`Kopyalandı: ${p.eposta}`));
 }
-
 function openAddModal() {
-  showToast('Yeni kayıt: Google Sheet\'ten ekleyin veya burayı genişletin');
+  showToast('Yeni kayıt: Google Sheet\'ten ekleyin');
 }
-
 function markContactedToday(id) {
   const p = data.find(x => x.id === id);
   const today = new Date().toISOString().slice(0,10);
   p.son_temas = today;
-  filterData();
-  renderStats();
+  filterData(); renderStats();
   showToast(`${p.sirket} → Son Temas bugün (${formatDate(today)})`);
   syncToSheet({ action: "updateField", id, field: "son_temas", value: today });
   openDetail(id);
 }
-
 function updateLinkedinField(id, field, value) {
   const p = data.find(x => x.id === id);
   p[field] = value;
-  renderTable();
-  showToast(`${p.sirket} LinkedIn → ${value}`);
+  filterData(); renderStats();
+  const s = getLiState(value);
+  showToast(`${p.sirket} LinkedIn → ${s.label}`);
   syncToSheet({ action: "updateLinkedin", id, [field]: value });
-  openDetail(id);
+  if (selectedId === id) openDetail(id);
+}
+function saveLinkedinNote(id, value) {
+  const p = data.find(x => x.id === id);
+  if (p.linkedin_not === value) return;
+  p.linkedin_not = value;
+  syncToSheet({ action: "updateLinkedin", id, linkedin_not: value });
 }
 
+// ─── Next action logic ─────────────────────────────────────────────
 function getNextAction(p) {
-  const today = new Date();
-  today.setHours(0,0,0,0);
-
   if (!p.son_temas) {
-    if (p.asama === "Araştırılıyor") return { text: "D1 ilk email gönder", sub: null, urgent: false };
+    if (p.asama === "Araştırılıyor") return { text: "D1 ilk email gönder", sub: "emails-ready'de .txt hazırla", urgent: false };
     return { text: "Tarih girilmemiş", sub: null, urgent: false };
   }
-
   const last = new Date(p.son_temas + 'T00:00:00');
+  const today = new Date(); today.setHours(0,0,0,0);
   const days = Math.floor((today - last) / 86400000);
 
-  if (p.asama === "Araştırılıyor") {
-    return { text: "D1 ilk email gönder", sub: null, urgent: false };
-  }
+  if (p.asama === "Araştırılıyor") return { text: "D1 ilk email gönder", sub: null, urgent: false };
   if (p.asama === "Email 1 Gönderildi") {
     const left = 4 - days;
-    if (left > 0) return { text: `D4 follow-up için ${left} gün kaldı`, sub: `Son temas: ${formatDate(p.son_temas)}`, urgent: false };
+    if (left > 0)  return { text: `D4 follow-up için ${left} gün kaldı`, sub: `Son temas: ${formatDate(p.son_temas)}`, urgent: false };
     if (left === 0) return { text: "Bugün D4 follow-up gönder!", sub: null, urgent: true };
     return { text: `D4 follow-up ${Math.abs(left)} gün gecikmiş!`, sub: `Son temas: ${formatDate(p.son_temas)}`, urgent: true };
   }
   if (p.asama === "Follow-up 1 Gönderildi") {
     const left = 5 - days;
-    if (left > 0) return { text: `D9 breakup için ${left} gün kaldı`, sub: `Son temas: ${formatDate(p.son_temas)}`, urgent: false };
+    if (left > 0)  return { text: `D9 breakup için ${left} gün kaldı`, sub: `Son temas: ${formatDate(p.son_temas)}`, urgent: false };
     if (left === 0) return { text: "Bugün D9 breakup gönder!", sub: null, urgent: true };
     return { text: `D9 breakup ${Math.abs(left)} gün gecikmiş!`, sub: `Son temas: ${formatDate(p.son_temas)}`, urgent: true };
   }
   if (p.asama === "Follow-up 2 Gönderildi") {
     const left = 7 - days;
-    if (left > 0) return { text: `Yanıt bekleniyor (${left} gün → arşiv)`, sub: null, urgent: false };
+    if (left > 0)  return { text: `Yanıt bekleniyor (${left} gün → arşiv)`, sub: null, urgent: false };
     return { text: "Arşivlenmeye hazır", sub: `${days} gündür yanıt yok`, urgent: false };
   }
   if (p.asama === "Pozitif") return { text: "Toplantı planla!", sub: null, urgent: true };
-  if (p.asama === "Arşiv") return { text: "Arşivlenmiş", sub: null, urgent: false };
+  if (p.asama === "Arşiv")   return { text: "Arşivlenmiş", sub: null, urgent: false };
   return { text: "—", sub: null, urgent: false };
 }
 
 // ─── Init ──────────────────────────────────────────────────────────
 async function loadData(silent = false) {
   if (!WEBAPI_URL) {
-    renderStats();
-    filterData();
-    setView('table');
-    return;
+    renderStats(); filterData(); renderDashStrip(); setView('table'); return;
   }
   if (!silent) {
-    // First load: show placeholder
     document.getElementById('tableBody').innerHTML =
-      '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--ink-3)">Veriler yükleniyor…</td></tr>';
+      '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--ink-4)">Veriler yükleniyor…</td></tr>';
   }
   setSyncIndicator('syncing');
   try {
-    const res = await fetch(WEBAPI_URL);
+    const res  = await fetch(WEBAPI_URL);
     const json = await res.json();
     if (json.ok && Array.isArray(json.data) && json.data.length) {
-      data = json.data;
-      filtered = [...data];
+      data = json.data; filtered = [...data];
       setSyncIndicator('synced');
       showToast(silent ? `${data.length} kayıt güncellendi` : `${data.length} kayıt yüklendi`);
     } else {
       setSyncIndicator('error');
       showToast('API yanıtı boş — lokal veri gösteriliyor');
     }
-  } catch (err) {
+  } catch {
     setSyncIndicator('error');
     showToast('Bağlantı hatası — lokal veri gösteriliyor');
   }
-  renderStats();
-  filterData();
+  renderStats(); filterData(); renderDashStrip();
   if (!silent) setView('table');
 }
 
 async function refreshData() {
   if (!WEBAPI_URL) { showToast('API URL tanımlı değil'); return; }
   const icon = document.getElementById('refreshIcon');
-  const btn = document.getElementById('refreshBtn');
-  icon.classList.add('spinning');
-  btn.disabled = true;
+  const btn  = document.getElementById('refreshBtn');
+  icon.classList.add('spinning'); btn.disabled = true;
   await loadData(true);
-  icon.classList.remove('spinning');
-  btn.disabled = false;
+  icon.classList.remove('spinning'); btn.disabled = false;
 }
 
 loadData();
+
+// Refresh schedule strip every minute
+setInterval(renderDashStrip, 60000);
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeDetailPanel();
