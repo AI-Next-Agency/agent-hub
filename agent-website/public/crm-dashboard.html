@@ -359,13 +359,50 @@
   }
   .toast.show { transform: translateY(0); opacity: 1; }
 
+  /* ─── Card list (mobile) ─────────────────────────────────── */
+  .card-list { display: none; flex-direction: column; gap: 8px; }
+  .prospect-card {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 14px; cursor: pointer; transition: border-color 0.12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .prospect-card:active { background: var(--surface-2); }
+  .card-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+  .card-company { flex: 1; min-width: 0; }
+  .card-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .card-contact { font-size: 11px; color: var(--ink-3); margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
   /* ─── Responsive ─────────────────────────────────────────── */
   @media (max-width: 900px) {
     .topbar-stats { display: none; }
-    .toolbar { flex-wrap: wrap; }
-    .search-wrap { flex: 1 1 200px; }
-    .detail-panel { width: 100vw; }
+    .toolbar { flex-wrap: wrap; gap: 8px; }
+    .search-wrap { flex: 1 1 180px; }
+    .detail-panel { width: 100vw; border-left: none; }
     td.hide-sm, th.hide-sm { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .topbar { padding: 0 12px; gap: 8px; }
+    .topbar-divider, .topbar-title { display: none; }
+    .topbar-stats { display: none; }
+    .btn-label { display: none; }
+
+    .toolbar { padding: 8px 12px; }
+    .search-wrap { flex: 1 1 100%; }
+    .filter-group { flex: 0 0 100%; display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+    .filter-group::-webkit-scrollbar { display: none; }
+    .filter-select { flex-shrink: 0; font-size: 12px; padding: 5px 24px 5px 8px; }
+
+    .main { padding: 10px 12px; }
+
+    /* swap table for cards */
+    .table-wrap { display: none !important; }
+    .card-list { display: flex; }
+
+    .detail-panel { width: 100vw; max-width: 100vw; }
+    .detail-body { padding: 16px; }
+    .detail-grid { grid-template-columns: 1fr; }
+    .detail-field.full { grid-column: 1; }
   }
 
   /* ─── Scrollbar ──────────────────────────────────────────── */
@@ -404,7 +441,7 @@
     </button>
     <button class="btn btn-primary" onclick="openAddModal()">
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      Yeni Kayıt
+      <span class="btn-label">Yeni Kayıt</span>
     </button>
   </header>
 
@@ -487,6 +524,8 @@
         <p>Eşleşen kayıt bulunamadı.</p>
       </div>
     </div>
+    <!-- Cards (mobile) -->
+    <div id="cardList" class="card-list"></div>
     <!-- Kanban -->
     <div id="kanbanView" class="kanban" style="display:none"></div>
   </main>
@@ -647,6 +686,7 @@ function filterData() {
 
   if (sortKey) applySort();
   renderTable();
+  renderCards();
   renderKanban();
   document.getElementById('countBadge').textContent = `${filtered.length} kayıt`;
 }
@@ -713,6 +753,36 @@ function renderTable() {
         </div>
       </td>
     </tr>`;
+  }).join('');
+}
+
+// ─── Card render (mobile) ──────────────────────────────────────────
+function renderCards() {
+  const list = document.getElementById('cardList');
+  if (!list) return;
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty-state"><p>Eşleşen kayıt bulunamadı.</p></div>';
+    return;
+  }
+  list.innerHTML = filtered.map(p => {
+    const [bgC, textC] = avatarColors(p.sektor);
+    const dc = dateCls(p.son_temas, p.asama);
+    const dateLabel = p.son_temas ? formatDate(p.son_temas) : '—';
+    return `<div class="prospect-card" onclick="openDetail(${p.id})">
+      <div class="card-top">
+        <div class="company-avatar" style="background:${bgC};color:${textC};width:34px;height:34px;font-size:11px;flex-shrink:0">${initials(p.sirket)}</div>
+        <div class="card-company">
+          <div class="company-name">${p.sirket}</div>
+          <div class="company-sector">${p.sektor}</div>
+        </div>
+        <span class="prio-badge ${prioCls(p.oncelik)}" style="flex-shrink:0">${p.oncelik}</span>
+      </div>
+      <div class="card-row">
+        <span class="stage-badge ${stageCls(p.asama)}">${p.asama}</span>
+        <span class="date-cell ${dc}" style="font-size:11px">${dateLabel}</span>
+      </div>
+      ${p.karar_verici ? `<div class="card-contact">${p.karar_verici} · ${p.rol}</div>` : ''}
+    </div>`;
   }).join('');
 }
 
